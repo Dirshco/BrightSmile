@@ -132,7 +132,7 @@
     </div>
 
     <div class="section" id="app" style="display: none;">
-      <h2>Welcome, <span id="userEmail"></span></h2>
+      <h2>Welcome, <span id="userDisplayName"></span></h2>
       <button onclick="logout()">Logout</button>
     </div>
   </div>
@@ -165,9 +165,15 @@
       firebase.initializeApp(firebaseConfig);
 
       firebase.auth().onAuthStateChanged(user => {
-        if (user) {
+        if (user && user.emailVerified) {
           document.getElementById("app").style.display = "block";
-          document.getElementById("userEmail").innerText = user.email;
+          firebase.firestore().collection("users").doc(user.uid).get().then(doc => {
+            const data = doc.data();
+            document.getElementById("userDisplayName").innerText = data?.name || user.email;
+          });
+        } else if (user && !user.emailVerified) {
+          alert("Please verify your email address before accessing the app.");
+          firebase.auth().signOut();
         }
       });
     };
@@ -190,10 +196,14 @@
 
       firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(cred => {
-          return firebase.firestore().collection("users").doc(cred.user.uid).set({ name, email });
+          return Promise.all([
+            firebase.firestore().collection("users").doc(cred.user.uid).set({ name, email }),
+            cred.user.updateProfile({ displayName: name }),
+            cred.user.sendEmailVerification()
+          ]);
         })
         .then(() => {
-          alert("Registration successful. You can now log in.");
+          alert("Registration successful. A verification email has been sent. Please verify before logging in.");
           document.getElementById("regName").value = "";
           document.getElementById("regEmail").value = "";
           document.getElementById("regPassword").value = "";
@@ -209,6 +219,12 @@
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(userCredential => {
+          if (!userCredential.user.emailVerified) {
+            alert("Please verify your email before logging in.");
+            firebase.auth().signOut();
+          }
+        })
         .catch(error => alert(error.message));
     }
 
