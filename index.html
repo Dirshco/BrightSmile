@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BrightSmile Web</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-messaging-compat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background: #0066cc;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+    }
+    .section {
+      background: white;
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #004c99;
+    }
+    iframe {
+      width: 100%;
+      height: 200px;
+      margin: 10px 0;
+    }
+    #photos img {
+      width: 100px;
+      margin: 5px;
+      border-radius: 6px;
+    }
+    #onboarding {
+      display: none;
+      background-color: #fff3cd;
+      border: 1px solid #ffeeba;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 600px) {
+      h1, h2, h3 {
+        font-size: 1.2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>BrightSmile Web App</h1>
+    <p>Your personalized dental care assistant</p>
+  </header>
+
+  <div class="container">
+    <div id="onboarding">
+      <h2>Welcome to BrightSmile!</h2>
+      <p>This app helps you take charge of your dental care. Here's what you can do:</p>
+      <ul>
+        <li>🦷 Log daily flossing</li>
+        <li>📸 Upload and view oral care photos</li>
+        <li>🎥 Watch dental care educational videos</li>
+        <li>🗕️ Schedule your next cleaning</li>
+        <li>🔔 Set daily reminders and receive notifications</li>
+      </ul>
+      <button onclick="dismissOnboarding()">Got it!</button>
+    </div>
+
+    <div class="section">
+      <h2>Login</h2>
+      <input id="email" placeholder="Email"><br>
+      <input id="password" type="password" placeholder="Password"><br>
+      <button onclick="login()">Login</button>
+    </div>
+
+    <div class="section" id="app" style="display: none;">
+      <h2>Welcome, <span id="userEmail"></span></h2>
+      <button onclick="logFlossing()">Log Flossing</button>
+      <input type="file" id="photoFile">
+      <button onclick="uploadPhoto()">Upload Photo</button>
+      <button onclick="exportLogToPDF()">Export Log to PDF</button>
+
+      <h3>Photos</h3>
+      <div id="photos"></div>
+
+      <div class="section">
+        <h2>Educational Videos</h2>
+        <iframe src="https://www.youtube.com/embed/1MIYc1vYd8M" frameborder="0" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/wU7tnozXL8M" frameborder="0" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/HqAqNnV9puA" frameborder="0" allowfullscreen></iframe>
+      </div>
+
+      <div class="section">
+        <h2>Set Cleaning Appointment</h2>
+        <input id="appointmentDate" type="date">
+        <button onclick="setAppointment()">Save Appointment</button>
+        <p id="nextAppointment"></p>
+      </div>
+
+      <div class="section">
+        <h2>Set Daily Reminder</h2>
+        <input id="reminderTime" type="time">
+        <button onclick="setReminder()">Set Reminder</button>
+      </div>
+
+      <div class="section">
+        <h2>Notification Preferences</h2>
+        <label><input type="checkbox" id="notifyFloss" checked> Daily Flossing Reminder</label><br>
+        <label><input type="checkbox" id="notifyAppointment" checked> Appointment Reminders</label><br>
+        <button onclick="saveNotificationPreferences()">Save Preferences</button>
+      </div>
+
+      <div class="section">
+        <h2>Survey</h2>
+        <p>Please take a moment to complete our survey:</p>
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdxuYOURSAMPLEFORMURL/viewform?embedded=true" width="640" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+      </div>
+
+      <div class="section">
+        <h2>Feedback</h2>
+        <textarea id="feedbackText" placeholder="Your feedback here..." rows="4"></textarea><br>
+        <button onclick="submitFeedback()">Submit Feedback</button>
+        <p id="feedbackMessage"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function dismissOnboarding() {
+      document.getElementById('onboarding').style.display = 'none';
+      localStorage.setItem('onboardingSeen', 'true');
+    }
+
+    window.onload = () => {
+      if (!localStorage.getItem('onboardingSeen')) {
+        document.getElementById('onboarding').style.display = 'block';
+      }
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAk9XWmT1vJEJwASsT1xfM6kETt4nqVEVk",
+        authDomain: "brightsmile-51442.firebaseapp.com",
+        projectId: "brightsmile-51442",
+        storageBucket: "brightsmile-51442.appspot.com",
+        messagingSenderId: "418665610564",
+        appId: "1:418665610564:web:157eeeab68b610ee3f2b11"
+      };
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+      const storage = firebase.storage();
+
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          document.getElementById("app").style.display = "block";
+          document.getElementById("userEmail").innerText = user.email;
+          loadPhotos();
+          loadAppointment();
+        }
+      });
+    };
+
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .catch(error => alert(error.message));
+    }
+
+    function logFlossing() {
+      const user = firebase.auth().currentUser;
+      if (!user) return;
+      firebase.firestore().collection("logs").add({
+        userId: user.uid,
+        type: "flossing",
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+
+    function uploadPhoto() {
+      const file = document.getElementById("photoFile").files[0];
+      const user = firebase.auth().currentUser;
+      if (!file || !user) return;
+      const ref = firebase.storage().ref().child(`photos/${user.uid}/${Date.now()}_${file.name}`);
+      ref.put(file).then(() => loadPhotos());
+    }
+
+    function loadPhotos() {
+      const user = firebase.auth().currentUser;
+      if (!user) return;
+      const ref = firebase.storage().ref().child(`photos/${user.uid}`);
+      ref.listAll().then(result => {
+        const photosDiv = document.getElementById("photos");
+        photosDiv.innerHTML = "";
+        result.items.forEach(itemRef => {
+          itemRef.getDownloadURL().then(url => {
+            const img = document.createElement("img");
+            img.src = url;
+            photosDiv.appendChild(img);
+          });
+        });
+      });
+    }
+
+    function exportLogToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.text("Dental Care Log", 10, 10);
+      doc.save("dental_log.pdf");
+    }
+
+    function setAppointment() {
+      const user = firebase.auth().currentUser;
+      const date = document.getElementById("appointmentDate").value;
+      if (!user || !date) return;
+      firebase.firestore().collection("appointments").doc(user.uid).set({ date });
+      document.getElementById("nextAppointment").innerText = `Next Appointment: ${date}`;
+    }
+
+    function loadAppointment() {
+      const user = firebase.auth().currentUser;
+      if (!user) return;
+      firebase.firestore().collection("appointments").doc(user.uid).get()
+        .then(doc => {
+          if (doc.exists) {
+            document.getElementById("nextAppointment").innerText = `Next Appointment: ${doc.data().date}`;
+          }
+        });
+    }
+
+    function setReminder() {
+      alert("Reminder logic not implemented in this version.");
+    }
+
+    function saveNotificationPreferences() {
+      const user = firebase.auth().currentUser;
+      if (!user) return;
+      const notifyFloss = document.getElementById("notifyFloss").checked;
+      const notifyAppointment = document.getElementById("notifyAppointment").checked;
+      firebase.firestore().collection("preferences").doc(user.uid).set({ notifyFloss, notifyAppointment });
+    }
+
+    function submitFeedback() {
+      const user = firebase.auth().currentUser;
+      if (!user) return;
+      const feedback = document.getElementById("feedbackText").value;
+      firebase.firestore().collection("feedback").add({
+        userId: user.uid,
+        feedback,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        document.getElementById("feedbackMessage").innerText = "Thank you for your feedback!";
+        document.getElementById("feedbackText").value = "";
+      });
+    }
+  </script>
+</body>
+</html>
