@@ -69,9 +69,17 @@
       border-radius: 8px;
       margin-bottom: 20px;
     }
+    .auth-buttons button {
+      width: 48%;
+      margin-right: 2%;
+    }
     @media (max-width: 600px) {
       h1, h2, h3 {
         font-size: 1.2em;
+      }
+      .auth-buttons button {
+        width: 100%;
+        margin-bottom: 10px;
       }
     }
   </style>
@@ -90,13 +98,18 @@
         <li>🦷 Log daily flossing</li>
         <li>📸 Upload and view oral care photos</li>
         <li>🎥 Watch dental care educational videos</li>
-        <li>🗕️ Schedule your next cleaning</li>
+        <li>🔕️ Schedule your next cleaning</li>
         <li>🔔 Set daily reminders and receive notifications</li>
       </ul>
       <button onclick="dismissOnboarding()">Got it!</button>
     </div>
 
-    <div class="section">
+    <div class="auth-buttons section">
+      <button onclick="toggleSection('registerSection')">Register</button>
+      <button onclick="toggleSection('loginSection')">Login</button>
+    </div>
+
+    <div class="section" id="registerSection" style="display:none">
       <h2>Register</h2>
       <input id="regName" placeholder="Full Name"><br>
       <input id="regEmail" placeholder="Email"><br>
@@ -106,16 +119,21 @@
       <p id="registerError" style="color:red;"></p>
     </div>
 
-    <div class="section">
+    <div class="section" id="loginSection" style="display:none">
       <h2>Login</h2>
       <input id="email" placeholder="Email"><br>
       <input id="password" type="password" placeholder="Password"><br>
       <button onclick="login()">Login</button>
+      <p style="text-align:center">or</p>
+      <button onclick="googleLogin()">Login with Google</button>
+      <p style="text-align:center; margin-top:10px;">
+        <a href="#" onclick="resetPassword()">Forgot Password?</a>
+      </p>
     </div>
 
     <div class="section" id="app" style="display: none;">
       <h2>Welcome, <span id="userEmail"></span></h2>
-      <!-- App contents -->
+      <button onclick="logout()">Logout</button>
     </div>
   </div>
 
@@ -123,6 +141,12 @@
     function dismissOnboarding() {
       document.getElementById('onboarding').style.display = 'none';
       localStorage.setItem('onboardingSeen', 'true');
+    }
+
+    function toggleSection(id) {
+      document.getElementById('registerSection').style.display = 'none';
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById(id).style.display = 'block';
     }
 
     window.onload = () => {
@@ -186,6 +210,28 @@
       const password = document.getElementById("password").value;
       firebase.auth().signInWithEmailAndPassword(email, password)
         .catch(error => alert(error.message));
+    }
+
+    function googleLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider)
+        .catch(error => alert(error.message));
+    }
+
+    function logout() {
+      firebase.auth().signOut()
+        .then(() => {
+          location.reload();
+        });
+    }
+
+    function resetPassword() {
+      const email = prompt("Please enter your email address:");
+      if (email) {
+        firebase.auth().sendPasswordResetEmail(email)
+          .then(() => alert("Password reset email sent."))
+          .catch(error => alert(error.message));
+      }
     }
   </script>
 </body>
