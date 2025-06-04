@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BrightSmile Web</title>
+  <title>BrightSmile Web (Supabase)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-messaging-compat.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js"></script>
   <style>
     body {
       font-family: sans-serif;
@@ -51,16 +46,6 @@
     button:hover {
       background-color: #004c99;
     }
-    iframe {
-      width: 100%;
-      height: 200px;
-      margin: 10px 0;
-    }
-    #photos img {
-      width: 100px;
-      margin: 5px;
-      border-radius: 6px;
-    }
     #onboarding {
       display: none;
       background-color: #fff3cd;
@@ -86,7 +71,7 @@
 </head>
 <body>
   <header>
-    <h1>BrightSmile Web App</h1>
+    <h1>BrightSmile Web App (Supabase)</h1>
     <p>Your personalized dental care assistant</p>
   </header>
 
@@ -114,7 +99,6 @@
       <input id="regName" placeholder="Full Name"><br>
       <input id="regEmail" placeholder="Email"><br>
       <input id="regPassword" type="password" placeholder="Password"><br>
-      <input id="regConfirm" type="password" placeholder="Confirm Password"><br>
       <button onclick="register()">Register</button>
       <p id="registerError" style="color:red;"></p>
     </div>
@@ -124,8 +108,6 @@
       <input id="email" placeholder="Email"><br>
       <input id="password" type="password" placeholder="Password"><br>
       <button onclick="login()">Login</button>
-      <p style="text-align:center">or</p>
-      <button onclick="googleLogin()">Login with Google</button>
       <p style="text-align:center; margin-top:10px;">
         <a href="#" onclick="resetPassword()">Forgot Password?</a>
       </p>
@@ -138,6 +120,8 @@
   </div>
 
   <script>
+    const supabase = supabase.createClient('https://ovyqkevfmhmrdydgunxh.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92eXFrZXZmbWhtcmR5ZGd1bnhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwNTgzMjEsImV4cCI6MjA2NDYzNDMyMX0.hF4qLqpnA8RV9v2E6PCquvuEKrRYXfzyx4c2vgxHO5A');
+    
     function dismissOnboarding() {
       document.getElementById('onboarding').style.display = 'none';
       localStorage.setItem('onboardingSeen', 'true');
@@ -149,104 +133,57 @@
       document.getElementById(id).style.display = 'block';
     }
 
-    window.onload = () => {
+    window.onload = async () => {
       if (!localStorage.getItem('onboardingSeen')) {
         document.getElementById('onboarding').style.display = 'block';
       }
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyAk9XWmT1vJEJwASsT1xfM6kETt4nqVEVk",
-        authDomain: "brightsmile-51442.firebaseapp.com",
-        projectId: "brightsmile-51442",
-        storageBucket: "brightsmile-51442.appspot.com",
-        messagingSenderId: "418665610564",
-        appId: "1:418665610564:web:157eeeab68b610ee3f2b11"
-      };
-      firebase.initializeApp(firebaseConfig);
-
-      firebase.auth().onAuthStateChanged(user => {
-        if (user && user.emailVerified) {
-          document.getElementById("app").style.display = "block";
-          firebase.firestore().collection("users").doc(user.uid).get().then(doc => {
-            const data = doc.data();
-            document.getElementById("userDisplayName").innerText = data?.name || user.email;
-          });
-        } else if (user && !user.emailVerified) {
-          alert("Please verify your email address before accessing the app.");
-          firebase.auth().signOut();
-        }
-      });
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        document.getElementById("app").style.display = "block";
+        document.getElementById("userDisplayName").innerText = user.user_metadata.full_name || user.email;
+      }
     };
 
-    function register() {
+    async function register() {
       const name = document.getElementById("regName").value;
       const email = document.getElementById("regEmail").value;
       const password = document.getElementById("regPassword").value;
-      const confirm = document.getElementById("regConfirm").value;
       const error = document.getElementById("registerError");
 
-      if (!name || !email || !password || !confirm) {
-        error.textContent = "Please fill in all fields.";
-        return;
-      }
-      if (password !== confirm) {
-        error.textContent = "Passwords do not match.";
-        return;
-      }
+      const { user, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: name }
+        }
+      });
 
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(cred => {
-          return Promise.all([
-            firebase.firestore().collection("users").doc(cred.user.uid).set({ name, email }),
-            cred.user.updateProfile({ displayName: name }),
-            cred.user.sendEmailVerification()
-          ]);
-        })
-        .then(() => {
-          alert("Registration successful. A verification email has been sent. Please verify before logging in.");
-          document.getElementById("regName").value = "";
-          document.getElementById("regEmail").value = "";
-          document.getElementById("regPassword").value = "";
-          document.getElementById("regConfirm").value = "";
-          error.textContent = "";
-        })
-        .catch(err => {
-          error.textContent = err.message;
-        });
+      if (signUpError) {
+        error.textContent = signUpError.message;
+      } else {
+        alert("Registration successful. Please check your email to verify your account.");
+      }
     }
 
-    function login() {
+    async function login() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(userCredential => {
-          if (!userCredential.user.emailVerified) {
-            alert("Please verify your email before logging in.");
-            firebase.auth().signOut();
-          }
-        })
-        .catch(error => alert(error.message));
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) alert(error.message);
+      else location.reload();
     }
 
-    function googleLogin() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider)
-        .catch(error => alert(error.message));
+    async function logout() {
+      await supabase.auth.signOut();
+      location.reload();
     }
 
-    function logout() {
-      firebase.auth().signOut()
-        .then(() => {
-          location.reload();
-        });
-    }
-
-    function resetPassword() {
+    async function resetPassword() {
       const email = prompt("Please enter your email address:");
       if (email) {
-        firebase.auth().sendPasswordResetEmail(email)
-          .then(() => alert("Password reset email sent."))
-          .catch(error => alert(error.message));
+        const { error } = await supabase.auth.resetPasswordForEmail(email);
+        if (error) alert(error.message);
+        else alert("Password reset email sent.");
       }
     }
   </script>
