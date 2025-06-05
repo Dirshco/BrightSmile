@@ -281,6 +281,17 @@
                 <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
             </div>
 
+            <div id="prfileSection" style="display:none;">
+                <h2>Profile</h2>
+                <input id="regName" placeholder="Full Name" aria-label="Full Name"><br>
+                <input id="regEmail" placeholder="Email" type="email" aria-label="Email"><br>
+                <input id="regPassword" type="password" placeholder="Password" aria-label="Password"><br>
+                <button onclick="register()">Register</button>
+                <p id="registerMessage" class="message"></p>
+                <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
+            </div>
+
+            
             <div id="loginSection" style="display:none;">
                 <h2>Login</h2>
                 <input id="email" placeholder="Email" type="email" aria-label="Email"><br>
@@ -293,8 +304,9 @@
 
         <div class="section" id="app" style="display: none;">
             <h2>Welcome, <span id="userDisplayName"></span>!</h2>
+            
             <div class="button-group">
-                <button onclick="downloadPDF()">📄 Export to PDF</button>
+                <button onclick="profile()">Edit profile</button>
                 <button onclick="logout()">Logout</button>
             </div>
 
@@ -333,7 +345,11 @@
                 <div id="logDisplay">
                     <p style="text-align: center; color: #777;">Your activities will appear here.</p>
                 </div>
+            </div> 
+            <div class="button-group">
+                <button onclick="downloadPDF()">📄 Export to PDF</button>
             </div>
+
         </div>
     </div>
 
@@ -353,9 +369,19 @@
             }
         };
 
+        function profile(){
+           // document.getElementById('onboarding').style.display = 'none';
+            function showRegister();
+        }
+        
         function dismissOnboarding() {
             document.getElementById('onboarding').style.display = 'none';
             localStorage.setItem('onboardingSeen', 'true');
+        }
+
+         function displayOnboarding() {
+            document.getElementById('onboarding').style.display = 'block';
+            localStorage.setItem('onboardingSeen', 'false');
         }
 
         function showRegister() {
