@@ -1,191 +1,562 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BrightSmile Web (Supabase)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://unpkg.com/@supabase/supabase-js"></script>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f9f9f9;
-      color: #333;
-    }
-    header {
-      background: #0066cc;
-      color: white;
-      padding: 1em;
-      text-align: center;
-    }
-    .container {
-      padding: 20px;
-    }
-    .section {
-      background: white;
-      margin-bottom: 20px;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.05);
-    }
-    input, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 8px;
-      margin-bottom: 10px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
-    button {
-      background-color: #0066cc;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #004c99;
-    }
-    #onboarding {
-      display: none;
-      background-color: #fff3cd;
-      border: 1px solid #ffeeba;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-    .auth-buttons button {
-      width: 48%;
-      margin-right: 2%;
-    }
-    @media (max-width: 600px) {
-      h1, h2, h3 {
-        font-size: 1.2em;
-      }
-      .auth-buttons button {
-        width: 100%;
-        margin-bottom: 10px;
-      }
-    }
-  </style>
+    <title>BrightSmile Web App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #eef2f7;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient to right, #007bff, #0056b3);
+            color: white;
+            padding: 1.5em 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        header p {
+            margin: 5px 0 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .section {
+            background: white;
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #0056b3;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        input, textarea {
+            width: calc(100% - 22px); /* Adjust for padding and border */
+            padding: 11px;
+            margin-top: 8px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #cce0ff;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        input:focus, textarea:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.25);
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px; /* Added for spacing between buttons */
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
+        }
+        .button-group button {
+            flex: 1; /* Distribute space evenly */
+            min-width: 150px; /* Ensure buttons don't get too small */
+        }
+
+        #onboarding {
+            background-color: #e6f7ff;
+            border: 1px solid #99e0ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        #onboarding ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+        #onboarding li {
+            background: #d9edf7;
+            margin-bottom: 8px;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .icon {
+            font-size: 1.2em;
+            color: #007bff;
+        }
+
+        .auth-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .auth-buttons button {
+            width: 48%;
+        }
+
+        #mainFeatures {
+            display: none;
+        }
+
+        .video-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        iframe {
+            width: 100%;
+            height: 250px; /* Slightly larger video embeds */
+            border: 1px solid #eef2f7;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .log-entry {
+            background-color: #f8f9fa;
+            border: 1px solid #e2e6ea;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95em;
+        }
+        .log-entry span {
+            color: #555;
+        }
+        .log-entry button {
+            width: auto;
+            padding: 5px 10px;
+            margin-left: 10px;
+            background-color: #dc3545;
+        }
+        .log-entry button:hover {
+            background-color: #c82333;
+        }
+        #logDisplay {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #eef2f7;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 15px;
+        }
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .auth-buttons {
+                flex-direction: column;
+            }
+            .auth-buttons button {
+                width: 100%;
+            }
+            .container {
+                margin: 15px auto;
+                padding: 0 15px;
+            }
+            header h1 {
+                font-size: 1.8em;
+            }
+            header p {
+                font-size: 1em;
+            }
+            .button-group {
+                flex-direction: column;
+            }
+            .button-group button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>BrightSmile Web App (Supabase)</h1>
-    <p>Your personalized dental care assistant</p>
-  </header>
+    <header>
+        <h1>BrightSmile Web App</h1>
+        <p>Your personalized dental care assistant</p>
+    </header>
 
-  <div class="container">
-    <div id="onboarding">
-      <h2>Welcome to BrightSmile!</h2>
-      <p>This app helps you take charge of your dental care. Here's what you can do:</p>
-      <ul>
-        <li>🦷 Log daily flossing</li>
-        <li>📸 Upload and view oral care photos</li>
-        <li>🎥 Watch dental care educational videos</li>
-        <li>🔕️ Schedule your next cleaning</li>
-        <li>🔔 Set daily reminders and receive notifications</li>
-      </ul>
-      <button onclick="dismissOnboarding()">Got it!</button>
+    <div class="container">
+        <div id="onboarding" style="display:none;">
+            <h2>Welcome to BrightSmile!</h2>
+            <p>This app helps you take charge of your dental care by allowing you to:</p>
+            <ul>
+                <li><span class="icon">🦷</span> Log daily flossing</li>
+                <li><span class="icon">🪥</span> Log brushing frequency</li>
+                <li><span class="icon">💧</span> Track mouthwash use</li>
+                <li><span class="icon">📓</span> Record dental pain/symptoms</li>
+                <li><span class="icon">🗓️</span> Schedule dental appointments</li>
+                <li><span class="icon">🎥</span> Watch dental care educational videos</li>
+                <li><span class="icon">📄</span> Export your logs to PDF</li>
+                </ul>
+            <button onclick="dismissOnboarding()">Got it! Let's get started</button>
+        </div>
+
+        <div class="section" id="authSection">
+            <div class="auth-buttons" id="authButtons">
+                <button onclick="showRegister()">Register</button>
+                <button onclick="showLogin()">Login</button>
+            </div>
+
+            <div id="registerSection" style="display:none;">
+                <h2>Register</h2>
+                <input id="regName" placeholder="Full Name" aria-label="Full Name"><br>
+                <input id="regEmail" placeholder="Email" type="email" aria-label="Email"><br>
+                <input id="regPassword" type="password" placeholder="Password" aria-label="Password"><br>
+                <button onclick="register()">Register</button>
+                <p id="registerMessage" class="message"></p>
+                <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
+            </div>
+
+            <div id="loginSection" style="display:none;">
+                <h2>Login</h2>
+                <input id="email" placeholder="Email" type="email" aria-label="Email"><br>
+                <input id="password" type="password" placeholder="Password" aria-label="Password"><br>
+                <button onclick="login()">Login</button>
+                <p id="loginMessage" class="message"></p>
+                <p style="text-align: center; margin-top: 15px;">Don't have an account? <a href="#" onclick="showRegister()">Register here</a></p>
+            </div>
+        </div>
+
+        <div class="section" id="app" style="display: none;">
+            <h2>Welcome, <span id="userDisplayName"></span>!</h2>
+            <div class="button-group">
+                <button onclick="downloadPDF()">📄 Export to PDF</button>
+                <button onclick="logout()">Logout</button>
+            </div>
+
+            <div id="mainFeatures">
+                <h3>Your Daily Habits</h3>
+                <div class="button-group">
+                    <button onclick="logFlossing()">🦷 Log Flossing</button>
+                    <button onclick="logBrushing()">🪥 Log Brushing</button>
+                    <button onclick="logMouthwash()">💧 Track Mouthwash</button>
+                </div>
+
+                <h3>Record Symptoms</h3>
+                <input id="symptomInput" placeholder="Describe any dental pain or symptoms..." aria-label="Symptom Description">
+                <button onclick="logSymptom()">📓 Record Symptom</button>
+
+                <h3>Appointments & Reminders</h3>
+                <button onclick="alert('This is a placeholder for a future appointment scheduling feature. You could integrate with a calendar API here!')">🗓️ Schedule Appointment</button>
+                <h3>Educational Videos</h3>
+                <p>Learn more about oral hygiene and care:</p>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/peT7a4_jE2A" title="Proper Brushing Technique" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/E-G-6qI_wW8" title="Flossing Basics" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/S9dO7qQ3yK0" title="Understanding Tooth Decay" allowfullscreen></iframe>
+                </div>
+
+                <h3>Your Activity Log</h3>
+                <div id="logDisplay">
+                    <p style="text-align: center; color: #777;">Your activities will appear here.</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="auth-buttons section">
-      <button onclick="toggleSection('registerSection')">Register</button>
-      <button onclick="toggleSection('loginSection')">Login</button>
-    </div>
+    <script>
+        window.onload = () => {
+            if (!localStorage.getItem('onboardingSeen')) {
+                document.getElementById('onboarding').style.display = 'block';
+            }
+            if (localStorage.getItem("currentUser")) {
+                showApp();
+            } else {
+                // If no current user, ensure auth buttons are visible
+                document.getElementById('authSection').style.display = 'block';
+                document.getElementById('authButtons').style.display = 'flex';
+                document.getElementById('registerSection').style.display = 'none';
+                document.getElementById('loginSection').style.display = 'none';
+            }
+        };
 
-    <div class="section" id="registerSection" >
-      <h2>Register</h2>
-      <input id="regName" placeholder="Full Name"><br>
-      <input id="regEmail" placeholder="Email"><br>
-      <input id="regPassword" type="password" placeholder="Password"><br>
-      <button onclick="register()">Register</button>
-      <p id="registerError" style="color:red;"></p>
-    </div>
-
-    <div class="section" id="loginSection" style="display:none">
-      <h2>Login</h2>
-      <input id="email" placeholder="Email"><br>
-      <input id="password" type="password" placeholder="Password"><br>
-      <button onclick="login()">Login</button>
-      <p style="text-align:center; margin-top:10px;">
-        <a href="#" onclick="resetPassword()">Forgot Password?</a>
-      </p>
-    </div>
-
-    <div class="section" id="app" style="display: none;">
-      <h2>Welcome, <span id="userDisplayName"></span></h2>
-      <button onclick="logout()">Logout</button>
-    </div>
-  </div>
-
-  <script>
-    const supabase = supabase.createClient('https://ovyqkevfmhmrdydgunxh.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92eXFrZXZmbWhtcmR5ZGd1bnhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwNTgzMjEsImV4cCI6MjA2NDYzNDMyMX0.hF4qLqpnA8RV9v2E6PCquvuEKrRYXfzyx4c2vgxHO5A');
-    
-    function dismissOnboarding() {
-      document.getElementById('onboarding').style.display = 'none';
-      localStorage.setItem('onboardingSeen', 'true');
-    }
-
-    function toggleSection(id) {
-      document.getElementById('registerSection').style.display = 'none';
-      document.getElementById('loginSection').style.display = 'none';
-      document.getElementById(id).style.display = 'block';
-    }
-
-    window.onload = async () => {
-      if (!localStorage.getItem('onboardingSeen')) {
-        document.getElementById('onboarding').style.display = 'block';
-      }
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        document.getElementById("app").style.display = "block";
-        document.getElementById("userDisplayName").innerText = user.user_metadata.full_name || user.email;
-      }
-    };
-
-    async function register() {
-      const name = document.getElementById("regName").value;
-      const email = document.getElementById("regEmail").value;
-      const password = document.getElementById("regPassword").value;
-      const error = document.getElementById("registerError");
-
-      const { user, error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { full_name: name }
+        function dismissOnboarding() {
+            document.getElementById('onboarding').style.display = 'none';
+            localStorage.setItem('onboardingSeen', 'true');
         }
-      });
 
-      if (signUpError) {
-        error.textContent = signUpError.message;
-      } else {
-        alert("Registration successful. Please check your email to verify your account.");
-      }
-    }
+        function showRegister() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('registerSection').style.display = 'block';
+            document.getElementById('authButtons').style.display = 'none';
+            document.getElementById('registerMessage').textContent = ''; // Clear previous messages
+        }
 
-    async function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) alert(error.message);
-      else location.reload();
-    }
+        function showLogin() {
+            document.getElementById('registerSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('authButtons').style.display = 'none';
+            document.getElementById('loginMessage').textContent = ''; // Clear previous messages
+        }
 
-    async function logout() {
-      await supabase.auth.signOut();
-      location.reload();
-    }
+        function getUsers() {
+            return JSON.parse(localStorage.getItem('users') || '{}');
+        }
 
-    async function resetPassword() {
-      const email = prompt("Please enter your email address:");
-      if (email) {
-        const { error } = await supabase.auth.resetPasswordForEmail(email);
-        if (error) alert(error.message);
-        else alert("Password reset email sent.");
-      }
-    }
-  </script>
+        function register() {
+            const name = document.getElementById("regName").value.trim();
+            const email = document.getElementById("regEmail").value.trim();
+            const password = document.getElementById("regPassword").value.trim();
+            const messageElement = document.getElementById("registerMessage");
+
+            if (!name || !email || !password) {
+                displayMessage(messageElement, "All fields are required.", "error");
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                displayMessage(messageElement, "Please enter a valid email address.", "error");
+                return;
+            }
+
+            let users = getUsers();
+            if (users[email]) {
+                displayMessage(messageElement, "This email is already registered. Try logging in.", "error");
+                return;
+            }
+
+            users[email] = { name, email, password, logs: [] };
+            localStorage.setItem('users', JSON.stringify(users));
+            displayMessage(messageElement, "Registration successful! Please log in.", "success");
+            setTimeout(showLogin, 2000); // Redirect to login after 2 seconds
+        }
+
+        function login() {
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const messageElement = document.getElementById("loginMessage");
+
+            if (!email || !password) {
+                displayMessage(messageElement, "Email and password are required.", "error");
+                return;
+            }
+
+            const users = getUsers();
+            if (users[email] && users[email].password === password) {
+                localStorage.setItem("currentUser", email);
+                showApp();
+            } else {
+                displayMessage(messageElement, "Invalid email or password.", "error");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("currentUser");
+            location.reload(); // Reloads the page to show login/register
+        }
+
+        function showApp() {
+            document.getElementById("app").style.display = "block";
+            document.getElementById("authSection").style.display = "none";
+            document.getElementById("mainFeatures").style.display = "block";
+            const email = localStorage.getItem("currentUser");
+            const user = getUsers()[email];
+            document.getElementById("userDisplayName").innerText = user.name || email;
+            renderLogs(); // Display logs when the app loads
+        }
+
+        function logFlossing() {
+            logAction("Flossing");
+        }
+
+        function logBrushing() {
+            logAction("Brushing");
+        }
+
+        function logMouthwash() {
+            logAction("Mouthwash Use");
+        }
+
+        function logSymptom() {
+            const symptom = document.getElementById("symptomInput").value.trim();
+            if (!symptom) {
+                alert("Please describe your symptom.");
+                return;
+            }
+            logAction("Symptom", symptom);
+            document.getElementById("symptomInput").value = "";
+        }
+
+        function logAction(type, description = "") {
+            const email = localStorage.getItem("currentUser");
+            if (!email) {
+                alert("Please log in to record activities.");
+                return;
+            }
+            const users = getUsers();
+            const now = new Date().toLocaleString();
+            users[email].logs = users[email].logs || [];
+            users[email].logs.push({ type, date: now, description });
+            localStorage.setItem("users", JSON.stringify(users));
+            renderLogs(); // Update the displayed logs
+            alert(`${type} logged successfully!`);
+        }
+
+        function renderLogs() {
+            const email = localStorage.getItem("currentUser");
+            const user = getUsers()[email];
+            const logDisplay = document.getElementById("logDisplay");
+            logDisplay.innerHTML = ''; // Clear existing logs
+
+            if (user && user.logs && user.logs.length > 0) {
+                user.logs.slice().reverse().forEach((log, index) => { // Reverse to show newest first
+                    const logEntry = document.createElement('div');
+                    logEntry.classList.add('log-entry');
+                    let logText = `<span>${log.type} on ${log.date}`;
+                    if (log.description) {
+                        logText += `: ${log.description}`;
+                    }
+                    logText += `</span>`;
+                    logEntry.innerHTML = logText;
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.onclick = () => deleteLogEntry(index); // Pass original index
+                    logEntry.appendChild(deleteButton);
+
+                    logDisplay.appendChild(logEntry);
+                });
+            } else {
+                logDisplay.innerHTML = '<p style="text-align: center; color: #777;">No activities logged yet. Start tracking your dental habits!</p>';
+            }
+        }
+
+        function deleteLogEntry(indexToDelete) {
+            const confirmDelete = confirm("Are you sure you want to delete this log entry?");
+            if (!confirmDelete) return;
+
+            const email = localStorage.getItem("currentUser");
+            const users = getUsers();
+            if (users[email] && users[email].logs) {
+                // Since we are displaying logs in reverse order,
+                // we need to adjust the index for the original array.
+                const originalIndex = users[email].logs.length - 1 - indexToDelete;
+                users[email].logs.splice(originalIndex, 1);
+                localStorage.setItem("users", JSON.stringify(users));
+                renderLogs(); // Re-render logs after deletion
+            }
+        }
+
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const email = localStorage.getItem("currentUser");
+            const user = getUsers()[email];
+
+            if (!user || !user.logs || user.logs.length === 0) {
+                alert("No activities to export. Please log some activities first.");
+                return;
+            }
+
+            doc.setFontSize(18);
+            doc.text("BrightSmile User Report", 10, 15);
+            doc.setFontSize(12);
+            doc.text(`Name: ${user.name || 'N/A'}`, 10, 25);
+            doc.text(`Email: ${user.email}`, 10, 35);
+            doc.text(`Report Generated: ${new Date().toLocaleString()}`, 10, 45);
+
+            doc.setFontSize(14);
+            doc.text("Activity Log:", 10, 60);
+
+            let y = 70;
+            const lineHeight = 10;
+            user.logs.forEach((log, i) => {
+                let line = `${log.type} on ${log.date}`;
+                if (log.description) {
+                    line += `: ${log.description}`;
+                }
+                // Check if adding the next line would exceed page height
+                if (y + lineHeight > doc.internal.pageSize.height - 20) {
+                    doc.addPage();
+                    y = 20; // Reset y for new page
+                    doc.setFontSize(14);
+                    doc.text("Activity Log (continued):", 10, y);
+                    y += 10;
+                }
+                doc.text(`${i + 1}. ${line}`, 10, y);
+                y += lineHeight;
+            });
+
+            doc.save("BrightSmile_Dental_Report.pdf");
+            alert("PDF report generated and downloaded!");
+        }
+
+        // Helper function for displaying messages
+        function displayMessage(element, message, type) {
+            element.textContent = message;
+            element.className = `message ${type}`; // Add 'message' and specific type class
+            element.style.display = 'block';
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000); // Hide message after 5 seconds
+        }
+
+        // Basic email validation
+        function isValidEmail(email) {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+    </script>
 </body>
 </html>
