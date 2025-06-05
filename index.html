@@ -3,20 +3,25 @@
 <head>
     <title>BrightSmile Web App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include jsPDF library for PDF export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
+        /* Base styles for the body */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            /* Changed background to a subtle dark blue to contrast with black sections */
-            background: #1a2a40; /* Darker blue */
-            color: #e0e0e0; /* Lighter text for dark background */
+            /* Dark blue background for the entire page */
+            background: #1a2a40;
+            /* Light text color for better contrast on dark backgrounds */
+            color: #e0e0e0;
             line-height: 1.6;
         }
+
+        /* Header styling */
         header {
-            background: blue;
+            background: blue; /* Solid blue background for the header */
             color: white;
             padding: 1.5em 0;
             text-align: center;
@@ -31,47 +36,59 @@
             font-size: 1.1em;
             opacity: 0.9;
         }
+
+        /* Container for main content, centered and with max-width */
         .container {
             max-width: 800px;
             margin: 20px auto;
             padding: 0 20px;
         }
+
+        /* Styling for main sections (auth, app, etc.) */
         .section {
-            background: black;
-            color: #e0e0e0; /* Lighter text for black background */
+            background: black; /* Black background for content sections */
+            color: #e0e0e0; /* Light text for black background */
             margin-bottom: 25px;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5); /* Stronger shadow for dark theme */
+            /* Stronger shadow for better visibility on dark theme */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
+
+        /* Styling for section headings */
         h2 {
-            color: yellow; /* Yellow headings */
+            color: yellow; /* Yellow headings for accent */
             border-bottom: 2px solid #333; /* Darker border for contrast */
             padding-bottom: 10px;
             margin-top: 0;
         }
         h3 {
-            color: yellow; /* Yellow headings */
+            color: yellow; /* Yellow sub-headings */
             margin-top: 25px;
             margin-bottom: 15px;
         }
+
+        /* Styling for input fields and text areas */
         input, textarea {
-            width: calc(100% - 22px);
+            width: calc(100% - 22px); /* Full width minus padding and border */
             padding: 11px;
             margin-top: 8px;
             margin-bottom: 15px;
             border-radius: 6px;
             border: 1px solid #444; /* Darker border for inputs */
             background-color: #222; /* Darker background for inputs */
-            color: #eee; /* Lighter text in inputs */
+            color: #eee; /* Light text in inputs */
             box-sizing: border-box;
             font-size: 1em;
         }
+        /* Focus state for inputs */
         input:focus, textarea:focus {
             border-color: yellow; /* Yellow focus border */
             outline: none;
             box-shadow: 0 0 0 3px rgba(255,255,0,0.25); /* Yellow glow on focus */
         }
+
+        /* Styling for buttons */
         button {
             background-color: blue; /* Blue buttons */
             color: white;
@@ -81,31 +98,34 @@
             cursor: pointer;
             font-size: 1em;
             transition: background-color 0.3s ease, transform 0.2s ease;
-            width: 100%;
+            width: 100%; /* Full width by default */
             box-sizing: border-box;
-            margin-bottom: 10px;
+            margin-bottom: 10px; /* Space between buttons */
         }
         button:hover {
             background-color: #0000cc; /* Slightly darker blue on hover */
-            transform: translateY(-1px);
+            transform: translateY(-1px); /* Slight lift on hover */
         }
         button:active {
-            transform: translateY(0);
+            transform: translateY(0); /* Reset on click */
         }
+
+        /* Flex container for grouping buttons */
         .button-group {
             display: flex;
             gap: 10px;
             margin-top: 15px;
-            flex-wrap: wrap;
+            flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
         }
         .button-group button {
-            flex: 1;
-            min-width: 150px;
+            flex: 1; /* Distribute space evenly */
+            min-width: 150px; /* Ensure buttons don't get too small */
         }
 
+        /* Onboarding section specific styles */
         #onboarding {
             background-color: black;
-            color: #e0e0e0; /* Lighter text for onboarding */
+            color: #e0e0e0;
             border: 1px solid #0000cc; /* Blue border for onboarding */
             padding: 20px;
             border-radius: 10px;
@@ -121,7 +141,7 @@
         }
         #onboarding li {
             background: #333; /* Darker background for list items */
-            color: #eee; /* Lighter text for list items */
+            color: #eee; /* Light text for list items */
             margin-bottom: 8px;
             padding: 10px;
             border-radius: 5px;
@@ -129,11 +149,13 @@
             align-items: center;
             gap: 10px;
         }
+        /* Icon styling within onboarding list */
         .icon {
             font-size: 1.2em;
             color: yellow; /* Yellow icons */
         }
 
+        /* Auth buttons (Register/Login) specific layout */
         .auth-buttons {
             display: flex;
             justify-content: space-between;
@@ -141,19 +163,22 @@
             margin-bottom: 25px;
         }
         .auth-buttons button {
-            width: 48%;
+            width: 48%; /* Each button takes half the width with a gap */
         }
 
+        /* Initially hide main features until logged in */
         #mainFeatures {
             display: none;
         }
 
+        /* Video container for layout */
         .video-container {
             display: flex;
             flex-direction: column;
             gap: 15px;
             margin-top: 20px;
         }
+        /* Styling for embedded video iframes */
         iframe {
             width: 100%;
             height: 250px;
@@ -161,6 +186,16 @@
             border-radius: 8px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
+        /* Styling for video titles/descriptions */
+        .video-title {
+            color: yellow; /* Make video titles yellow */
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+
+        /* Styling for individual log entries */
         .log-entry {
             background-color: #1c1c1c; /* Darker background for log entries */
             border: 1px solid #333; /* Darker border */
@@ -173,10 +208,11 @@
             font-size: 0.95em;
         }
         .log-entry span {
-            color: #ccc; /* Lighter text for log entries */
+            color: #ccc; /* Light text for log entries */
         }
+        /* Delete button within log entries */
         .log-entry button {
-            width: auto;
+            width: auto; /* Override full width for this button */
             padding: 5px 10px;
             margin-left: 10px;
             background-color: #cc0000; /* Red for delete button */
@@ -184,14 +220,23 @@
         .log-entry button:hover {
             background-color: #990000; /* Darker red on hover */
         }
+
+        /* Container for the activity log display */
         #logDisplay {
-            max-height: 300px;
+            max-height: 300px; /* Fixed height with scroll */
             overflow-y: auto;
             border: 1px solid #333; /* Darker border for log display */
             border-radius: 8px;
             padding: 10px;
             margin-top: 15px;
         }
+        /* Text color for empty log message */
+        #logDisplay p {
+            color: #bbb; /* Brighter text for empty log message on dark background */
+        }
+
+
+        /* General message box styling */
         .message {
             padding: 10px;
             border-radius: 5px;
@@ -199,16 +244,20 @@
             text-align: center;
             font-weight: bold;
         }
+        /* Success message specific styles */
         .message.success {
             background-color: #28a745; /* Green for success */
             color: white;
             border: 1px solid #1a7a33;
         }
+        /* Error message specific styles */
         .message.error {
             background-color: #dc3545; /* Red for error */
             color: white;
             border: 1px solid #a82a36;
         }
+
+        /* Styling for links */
         a {
             color: yellow; /* Yellow links */
             text-decoration: none;
@@ -217,9 +266,10 @@
             text-decoration: underline;
         }
 
+        /* Media queries for responsive design */
         @media (max-width: 768px) {
             .auth-buttons {
-                flex-direction: column;
+                flex-direction: column; /* Stack auth buttons vertically */
             }
             .auth-buttons button {
                 width: 100%;
@@ -235,7 +285,7 @@
                 font-size: 1em;
             }
             .button-group {
-                flex-direction: column;
+                flex-direction: column; /* Stack button groups vertically */
             }
             .button-group button {
                 width: 100%;
@@ -250,6 +300,7 @@
     </header>
 
     <div class="container">
+        <!-- Onboarding section - displayed on first visit -->
         <div id="onboarding" style="display:none;">
             <h2>Welcome to BrightSmile!</h2>
             <p>This app helps you take charge of your dental care by allowing you to:</p>
@@ -261,16 +312,18 @@
                 <li><span class="icon">🗓️</span> Schedule dental appointments</li>
                 <li><span class="icon">🎥</span> Watch dental care educational videos</li>
                 <li><span class="icon">📄</span> Export your logs to PDF</li>
-                </ul>
+            </ul>
             <button onclick="dismissOnboarding()">Got it! Let's get started</button>
         </div>
 
+        <!-- Authentication section (Register/Login/Profile) -->
         <div class="section" id="authSection">
             <div class="auth-buttons" id="authButtons">
                 <button onclick="showRegister()">Register</button>
                 <button onclick="showLogin()">Login</button>
             </div>
 
+            <!-- Registration form -->
             <div id="registerSection" style="display:none;">
                 <h2>Register</h2>
                 <input id="regName" placeholder="Full Name" aria-label="Full Name"><br>
@@ -281,17 +334,7 @@
                 <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
             </div>
 
-            <div id="prfileSection" style="display:none;">
-                <h2>Profile</h2>
-                <input id="regName" placeholder="Full Name" aria-label="Full Name"><br>
-                <input id="regEmail" placeholder="Email" type="email" aria-label="Email"><br>
-                <input id="regPassword" type="password" placeholder="Password" aria-label="Password"><br>
-                <button onclick="register()">Register</button>
-                <p id="registerMessage" class="message"></p>
-                <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
-            </div>
-
-            
+            <!-- Login form -->
             <div id="loginSection" style="display:none;">
                 <h2>Login</h2>
                 <input id="email" placeholder="Email" type="email" aria-label="Email"><br>
@@ -300,13 +343,27 @@
                 <p id="loginMessage" class="message"></p>
                 <p style="text-align: center; margin-top: 15px;">Don't have an account? <a href="#" onclick="showRegister()">Register here</a></p>
             </div>
+
+            <!-- Profile editing section -->
+            <div id="profileSection" style="display:none;">
+                <h2>Edit Profile</h2>
+                <!-- These inputs are for profile editing, unique IDs to avoid conflicts -->
+                <input id="profileName" placeholder="Full Name" aria-label="Full Name"><br>
+                <input id="profileEmail" placeholder="Email" type="email" aria-label="Email" disabled title="Email cannot be changed"><br>
+                <input id="profilePassword" type="password" placeholder="New Password (optional)" aria-label="New Password"><br>
+                <button onclick="updateProfile()">Update Profile</button>
+                <p id="profileMessage" class="message"></p>
+                <p style="text-align: center; margin-top: 15px;"><a href="#" onclick="showApp()">Back to App</a></p>
+            </div>
         </div>
 
+        <!-- Main application section - displayed after login -->
         <div class="section" id="app" style="display: none;">
             <h2>Welcome, <span id="userDisplayName"></span>!</h2>
-            
+
             <div class="button-group">
-                <button onclick="profile()">Edit profile</button>
+                <button onclick="showProfileSection()">Edit profile</button>
+                <button onclick="downloadPDF()">📄 Export to PDF</button>
                 <button onclick="logout()">Logout</button>
             </div>
 
@@ -326,82 +383,96 @@
                 <button onclick="alert('This is a placeholder for a future appointment scheduling feature. You could integrate with a calendar API here!')">🗓️ Schedule Appointment</button>
 
                 <h3>Educational Videos</h3>
-                
                 <div class="video-container">
-                <p><font color="yellow">Learn more about oral hygiene and care:</font></p>        
-                    <iframe src="https://www.youtube.com/embed/Fhaxk03viJI?si=nc-EMAa9Pn47tanq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                    
-      
-                    <p><font color="yellow">Electric vs. Manual Toothbrush:</font></p>        
-                     <iframe src="https://www.youtube.com/embed/U1T_-eyjCAo" title="Electric vs. Manual Toothbrush" allowfullscreen></iframe>
+                    <p class="video-title">Introduction to Oral Hygiene:</p>
+                    <iframe src="https://www.youtube.com/embed/Fhaxk03viJI?si=nc-EMAa9Pn47tanq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-                    <p><font color="yellow">Proper Brushing Technique:</font></p> 
+                    <p class="video-title">Electric vs. Manual Toothbrush:</p>
+                    <iframe src="https://www.youtube.com/embed/U1T_-eyjCAo" title="Electric vs. Manual Toothbrush" allowfullscreen></iframe>
+
+                    <p class="video-title">Proper Brushing Technique:</p>
                     <iframe src="https://www.youtube.com/embed/3oG_JLuQ8T8" title="Proper Brushing Technique" allowfullscreen></iframe>
-            
-                    <p><font color="yellow">Learn more about oral hygiene and care:</font></p>        
+
+                    <p class="video-title">Flossing Basics:</p>
                     <iframe src="https://www.youtube.com/embed/WviE5aa5Ha0" title="Flossing Basics" allowfullscreen></iframe>
                 </div>
 
                 <h3>Your Activity Log</h3>
                 <div id="logDisplay">
-                    <p style="text-align: center; color: #777;">Your activities will appear here.</p>
+                    <p style="text-align: center; color: #bbb;">Your activities will appear here.</p>
                 </div>
-            </div> 
-            <div class="button-group">
-                <button onclick="downloadPDF()">📄 Export to PDF</button>
             </div>
-
         </div>
     </div>
 
     <script>
+        // On window load, check if onboarding has been seen or if a user is logged in
         window.onload = () => {
             if (!localStorage.getItem('onboardingSeen')) {
                 document.getElementById('onboarding').style.display = 'block';
             }
             if (localStorage.getItem("currentUser")) {
-                showApp();
+                showApp(); // Show the main app if a user is logged in
             } else {
-                // If no current user, ensure auth buttons are visible
+                // If no current user, ensure authentication buttons are visible
                 document.getElementById('authSection').style.display = 'block';
                 document.getElementById('authButtons').style.display = 'flex';
                 document.getElementById('registerSection').style.display = 'none';
                 document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('profileSection').style.display = 'none'; // Ensure profile is hidden
             }
         };
 
-        function profile(){
-           // document.getElementById('onboarding').style.display = 'none';
-            function showRegister();
-        }
-        
+        // Function to dismiss the onboarding screen
         function dismissOnboarding() {
             document.getElementById('onboarding').style.display = 'none';
             localStorage.setItem('onboardingSeen', 'true');
         }
 
-         function displayOnboarding() {
-            document.getElementById('onboarding').style.display = 'block';
-            localStorage.setItem('onboardingSeen', 'false');
-        }
-
+        // Function to show the registration form and hide others
         function showRegister() {
             document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('profileSection').style.display = 'none';
             document.getElementById('registerSection').style.display = 'block';
             document.getElementById('authButtons').style.display = 'none';
             document.getElementById('registerMessage').textContent = ''; // Clear previous messages
         }
 
+        // Function to show the login form and hide others
         function showLogin() {
             document.getElementById('registerSection').style.display = 'none';
+            document.getElementById('profileSection').style.display = 'none';
             document.getElementById('loginSection').style.display = 'block';
             document.getElementById('authButtons').style.display = 'none';
             document.getElementById('loginMessage').textContent = ''; // Clear previous messages
         }
 
+        // Function to show the profile editing section
+        function showProfileSection() {
+            document.getElementById('app').style.display = 'none';
+            document.getElementById('authSection').style.display = 'block'; // Make auth section visible
+            document.getElementById('authButtons').style.display = 'none'; // Hide auth buttons
+            document.getElementById('registerSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('profileSection').style.display = 'block';
+
+            // Populate profile fields with current user data
+            const currentUserEmail = localStorage.getItem("currentUser");
+            const users = getUsers();
+            const user = users[currentUserEmail];
+            if (user) {
+                document.getElementById("profileName").value = user.name || '';
+                document.getElementById("profileEmail").value = user.email || '';
+                document.getElementById("profileMessage").textContent = '';
+            }
+        }
+
+        // Function to get all users from local storage
         function getUsers() {
             return JSON.parse(localStorage.getItem('users') || '{}');
         }
 
+        // Function to handle user registration
         function register() {
             const name = document.getElementById("regName").value.trim();
             const email = document.getElementById("regEmail").value.trim();
@@ -424,12 +495,14 @@
                 return;
             }
 
+            // Store user data in local storage
             users[email] = { name, email, password, logs: [] };
             localStorage.setItem('users', JSON.stringify(users));
             displayMessage(messageElement, "Registration successful! Please log in.", "success");
             setTimeout(showLogin, 2000); // Redirect to login after 2 seconds
         }
 
+        // Function to handle user login
         function login() {
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
@@ -442,21 +515,55 @@
 
             const users = getUsers();
             if (users[email] && users[email].password === password) {
-                localStorage.setItem("currentUser", email);
-                showApp();
+                localStorage.setItem("currentUser", email); // Set current user session
+                showApp(); // Show the main app
             } else {
                 displayMessage(messageElement, "Invalid email or password.", "error");
             }
         }
 
-        function logout() {
-            localStorage.removeItem("currentUser");
-            location.reload(); // Reloads the page to show login/register
+        // Function to update user profile
+        function updateProfile() {
+            const currentUserEmail = localStorage.getItem("currentUser");
+            const users = getUsers();
+            const user = users[currentUserEmail];
+            const messageElement = document.getElementById("profileMessage");
+
+            if (!user) {
+                displayMessage(messageElement, "No user logged in.", "error");
+                return;
+            }
+
+            const newName = document.getElementById("profileName").value.trim();
+            const newPassword = document.getElementById("profilePassword").value.trim();
+
+            if (!newName) {
+                displayMessage(messageElement, "Name cannot be empty.", "error");
+                return;
+            }
+
+            user.name = newName;
+            if (newPassword) {
+                user.password = newPassword; // Update password if provided
+            }
+
+            localStorage.setItem("users", JSON.stringify(users));
+            document.getElementById("userDisplayName").innerText = user.name; // Update display name
+            displayMessage(messageElement, "Profile updated successfully!", "success");
+            // Optionally, redirect back to app after a delay or immediately
+            setTimeout(showApp, 1500);
         }
 
+        // Function to handle user logout
+        function logout() {
+            localStorage.removeItem("currentUser");
+            location.reload(); // Reloads the page to show login/register sections
+        }
+
+        // Function to display the main application interface
         function showApp() {
             document.getElementById("app").style.display = "block";
-            document.getElementById("authSection").style.display = "none";
+            document.getElementById("authSection").style.display = "none"; // Hide auth section
             document.getElementById("mainFeatures").style.display = "block";
             const email = localStorage.getItem("currentUser");
             const user = getUsers()[email];
@@ -464,6 +571,7 @@
             renderLogs(); // Display logs when the app loads
         }
 
+        // Logging functions for daily habits
         function logFlossing() {
             logAction("Flossing");
         }
@@ -476,31 +584,34 @@
             logAction("Mouthwash Use");
         }
 
+        // Function to log symptoms
         function logSymptom() {
             const symptom = document.getElementById("symptomInput").value.trim();
             if (!symptom) {
-                alert("Please describe your symptom.");
+                alert("Please describe your symptom."); // Use a custom modal in a real app, not alert
                 return;
             }
             logAction("Symptom", symptom);
-            document.getElementById("symptomInput").value = "";
+            document.getElementById("symptomInput").value = ""; // Clear input field
         }
 
+        // Generic function to log an action
         function logAction(type, description = "") {
             const email = localStorage.getItem("currentUser");
             if (!email) {
-                alert("Please log in to record activities.");
+                alert("Please log in to record activities."); // Use a custom modal in a real app, not alert
                 return;
             }
             const users = getUsers();
-            const now = new Date().toLocaleString();
-            users[email].logs = users[email].logs || [];
-            users[email].logs.push({ type, date: now, description });
-            localStorage.setItem("users", JSON.stringify(users));
+            const now = new Date().toLocaleString(); // Get current date and time
+            users[email].logs = users[email].logs || []; // Initialize logs array if it doesn't exist
+            users[email].logs.push({ type, date: now, description }); // Add new log entry
+            localStorage.setItem("users", JSON.stringify(users)); // Save updated user data
             renderLogs(); // Update the displayed logs
-            alert(`${type} logged successfully!`);
+            alert(`${type} logged successfully!`); // Use a custom modal in a real app, not alert
         }
 
+        // Function to render and display activity logs
         function renderLogs() {
             const email = localStorage.getItem("currentUser");
             const user = getUsers()[email];
@@ -508,7 +619,8 @@
             logDisplay.innerHTML = ''; // Clear existing logs
 
             if (user && user.logs && user.logs.length > 0) {
-                user.logs.slice().reverse().forEach((log, index) => { // Reverse to show newest first
+                // Display logs in reverse order (newest first)
+                user.logs.slice().reverse().forEach((log, index) => {
                     const logEntry = document.createElement('div');
                     logEntry.classList.add('log-entry');
                     let logText = `<span>${log.type} on ${log.date}`;
@@ -520,33 +632,36 @@
 
                     const deleteButton = document.createElement('button');
                     deleteButton.textContent = 'Delete';
-                    deleteButton.onclick = () => deleteLogEntry(index); // Pass original index
+                    // The index here is the index in the *reversed* array for display,
+                    // not the original array. We'll adjust in deleteLogEntry.
+                    deleteButton.onclick = () => deleteLogEntry(index);
                     logEntry.appendChild(deleteButton);
 
                     logDisplay.appendChild(logEntry);
                 });
             } else {
-                logDisplay.innerHTML = '<p style="text-align: center; color: #777;">No activities logged yet. Start tracking your dental habits!</p>';
+                logDisplay.innerHTML = '<p style="text-align: center; color: #bbb;">No activities logged yet. Start tracking your dental habits!</p>';
             }
         }
 
+        // Function to delete a log entry
         function deleteLogEntry(indexToDelete) {
+            // In a real app, replace confirm() with a custom modal for better UX
             const confirmDelete = confirm("Are you sure you want to delete this log entry?");
             if (!confirmDelete) return;
 
             const email = localStorage.getItem("currentUser");
             const users = getUsers();
             if (users[email] && users[email].logs) {
-                // Since we are displaying logs in reverse order,
-                // we need to adjust the index for the original array.
+                // Calculate the original index because logs are displayed in reverse order
                 const originalIndex = users[email].logs.length - 1 - indexToDelete;
-                users[email].logs.splice(originalIndex, 1);
-                localStorage.setItem("users", JSON.stringify(users));
+                users[email].logs.splice(originalIndex, 1); // Remove the log entry
+                localStorage.setItem("users", JSON.stringify(users)); // Save updated data
                 renderLogs(); // Re-render logs after deletion
             }
         }
 
-
+        // Function to download user activity logs as a PDF
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -554,10 +669,11 @@
             const user = getUsers()[email];
 
             if (!user || !user.logs || user.logs.length === 0) {
-                alert("No activities to export. Please log some activities first.");
+                alert("No activities to export. Please log some activities first."); // Custom modal for UX
                 return;
             }
 
+            // Add report header
             doc.setFontSize(18);
             doc.text("BrightSmile User Report", 10, 15);
             doc.setFontSize(12);
@@ -568,17 +684,19 @@
             doc.setFontSize(14);
             doc.text("Activity Log:", 10, 60);
 
-            let y = 70;
+            let y = 70; // Starting Y position for log entries
             const lineHeight = 10;
+
+            // Add each log entry to the PDF
             user.logs.forEach((log, i) => {
                 let line = `${log.type} on ${log.date}`;
                 if (log.description) {
                     line += `: ${log.description}`;
                 }
-                // Check if adding the next line would exceed page height
+                // Add new page if current content exceeds page height
                 if (y + lineHeight > doc.internal.pageSize.height - 20) {
                     doc.addPage();
-                    y = 20; // Reset y for new page
+                    y = 20; // Reset Y for new page
                     doc.setFontSize(14);
                     doc.text("Activity Log (continued):", 10, y);
                     y += 10;
@@ -587,21 +705,21 @@
                 y += lineHeight;
             });
 
-            doc.save("BrightSmile_Dental_Report.pdf");
-            alert("PDF report generated and downloaded!");
+            doc.save("BrightSmile_Dental_Report.pdf"); // Save the PDF file
+            alert("PDF report generated and downloaded!"); // Custom modal for UX
         }
 
-        // Helper function for displaying messages
+        // Helper function for displaying transient messages (success/error)
         function displayMessage(element, message, type) {
             element.textContent = message;
-            element.className = `message ${type}`; // Add 'message' and specific type class
+            element.className = `message ${type}`; // Apply CSS classes for styling
             element.style.display = 'block';
             setTimeout(() => {
-                element.style.display = 'none';
-            }, 5000); // Hide message after 5 seconds
+                element.style.display = 'none'; // Hide message after 5 seconds
+            }, 5000);
         }
 
-        // Basic email validation
+        // Basic email validation using regex
         function isValidEmail(email) {
             const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
