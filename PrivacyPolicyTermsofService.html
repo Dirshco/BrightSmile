@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Oral Health Tracker - Privacy & Legal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f0f7f0;
+            color: #1a2e1a;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Language Toggle */
+        .lang-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            background: white;
+            border: 2px solid #2c6e2c;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .lang-btn.active {
+            background: #2c6e2c;
+            color: white;
+        }
+
+        .lang-btn:hover {
+            background: #3e8e3e;
+            color: white;
+            border-color: #3e8e3e;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+            padding: 32px 40px;
+            margin-bottom: 32px;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #1a4d1a;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: #e8f0e8;
+            color: #2c6e2c;
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-weight: normal;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: #2c6e2c;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #d4e8d4;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            color: #2a5e2a;
+            margin: 24px 0 12px 0;
+        }
+
+        .effective-date {
+            background: #f9f5e3;
+            padding: 10px 16px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            margin-bottom: 24px;
+            display: inline-block;
+        }
+
+        p, li {
+            margin-bottom: 14px;
+            color: #2a3e2a;
+        }
+
+        ul, ol {
+            margin: 12px 0 16px 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        hr {
+            margin: 28px 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, #d4e8d4, transparent);
+        }
+
+        .permission-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #f9fef9;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .permission-table th, .permission-table td {
+            border: 1px solid #cde2cd;
+            padding: 12px 16px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .permission-table th {
+            background: #e2f0e2;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 48px;
+            padding: 24px;
+            color: #5b7c5b;
+            font-size: 0.8rem;
+            border-top: 1px solid #d0e0d0;
+        }
+
+        .lang-section {
+            display: none;
+        }
+
+        .lang-section.active-lang {
+            display: block;
+        }
+
+        @media (max-width: 700px) {
+            .card {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        .app-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="lang-bar">
+        <button class="lang-btn active" id="btn-en">🇬🇧 English</button>
+        <button class="lang-btn" id="btn-ar">🇸🇦 العربية</button>
+    </div>
+
+    <!-- ENGLISH SECTION -->
+    <div id="section-en" class="lang-section active-lang">
+        <div class="card">
+            <h1>🦷 Oral Health Tracker <span class="badge">Privacy & Legal Hub</span></h1>
+            <p><strong>App Version 1.0</strong> — Last updated: May 18, 2026</p>
+            <p style="margin-top: 8px;">This page contains the official Privacy Policy, Terms of Service, and content rating information for the Oral Health Tracker app. All documents are available in both English and Arabic.</p>
+        </div>
+
+        <!-- PRIVACY POLICY (EN) -->
+        <div class="card" id="privacy-en">
+            <h2>📘 Privacy Policy</h2>
+            <div class="effective-date">✅ Effective Date: May 18, 2026</div>
+            
+            <h3>1. Overview</h3>
+            <p>Oral Health Tracker ("the App") is a health & fitness application designed to help users maintain good oral hygiene through reminders and educational content. This policy explains how we handle your information — <strong>we collect nothing</strong>.</p>
+
+            <h3>2. Data Collection — Minimal by Design</h3>
+            <p><strong>We do not collect, store, or transmit any personal data to any servers.</strong> The App operates entirely offline. All alarms, settings, and streak data are stored locally on your device using Android's SharedPreferences.</p>
+            
+            <h4>What We DO NOT Collect:</h4>
+            <ul>
+                <li>Names, emails, phone numbers, or addresses</li>
+                <li>Location data</li>
+                <li>Device identifiers (IMEI, MAC address, etc.)</li>
+                <li>Usage analytics or crash logs</li>
+                <li>Any health or biometric data</li>
+            </ul>
+
+            <h4>What is stored locally (on your device only):</h4>
+            <ul>
+                <li>Alarm titles and times</li>
+                <li>Repeat day preferences</li>
+                <li>Consequence / streak counters</li>
+            </ul>
+
+            <h3>3. Permissions</h3>
+            <table class="permission-table">
+                <thead>
+                    <tr><th>Permission</th><th>Purpose</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>SCHEDULE_EXACT_ALARM</td><td>To set precise alarm times for oral care reminders</td></tr>
+                    <tr><td>POST_NOTIFICATIONS (Android 13+)</td><td>To send you reminder notifications</td></tr>
+                </tbody>
+            </table>
+            <p>These permissions are used only for core reminder functionality. No data from these permissions is collected or transmitted.</p>
+
+            <h3>4. Third-Party Services</h3>
+            <p><strong>The App uses no third-party services</strong> — no analytics SDKs, no ad networks, no crash reporting tools, no cloud storage.</p>
+
+            <h3>5. Children's Privacy</h3>
+            <p>The App is suitable for all ages. We do not knowingly collect any personal information from children under 13. Because the App stores no data externally and transmits nothing, child data is not at risk.</p>
+
+            <h3>6. Data Security</h3>
+            <p>Since the App does not collect or transmit data, there is no data to intercept or breach. All local data is stored within the Android application sandbox, inaccessible to other apps without root access.</p>
+
+            <h3>7. Your Rights</h3>
+            <p>You have full control: <strong>Delete data</strong> by uninstalling the App. <strong>Modify data</strong> by editing or deleting alarms at any time.</p>
+
+            <h3>8. Changes to This Policy</h3>
+            <p>We may update this privacy policy occasionally. Changes will be posted on this page with an updated effective date.</p>
+
+            <h3>9. Contact Us</h3>
+            <p>📧 <strong>Email:</strong> privacy@oralhealthtracker.com</p>
+            <hr>
+            <p><em>This Privacy Policy applies to Oral Health Tracker version 1.0 and above.</em></p>
+        </div>
+
+        <!-- TERMS OF SERVICE (EN) -->
+        <div class="card" id="terms-en">
+            <h2>⚖️ Terms of Service (User Agreement)</h2>
+            <div class="effective-date">📅 Effective: May 18, 2026</div>
+            
+            <h3>1. Acceptance of Terms</h3>
+            <p>By downloading, installing, or using Oral Health Tracker ("the App"), you agree to be bound by these Terms. If you do not agree, do not use the App.</p>
+
+            <h3>2. Description of Service</h3>
+            <p>The App provides oral hygiene reminder tools: customizable alarms for brushing, flossing, denture cleaning; streak tracking; and educational content (tips, articles, videos).</p>
+
+            <h3>3. No Medical Advice — Important Disclaimer</h3>
+            <p><strong>The App is a reminder and tracking tool only. It does not provide medical advice, diagnosis, or treatment.</strong> Always consult a qualified dentist or physician for oral health concerns. The App does not replace professional dental care, and your use does not create a doctor-patient relationship.</p>
+
+            <h3>4. User Responsibilities</h3>
+            <p>You agree to use the App only for its intended purpose, not to reverse engineer or distribute the App, and not to use it unlawfully.</p>
+
+            <h3>5. Intellectual Property</h3>
+            <p>All content (text, graphics, logos, code) is owned by the developer and protected by copyright. Educational content is for personal use only.</p>
+
+            <h3>6. Limitation of Liability</h3>
+            <p>To the maximum extent permitted by law: The App is provided "as is" without warranties. We are not liable for missed alarms due to device settings, battery optimization, or system issues, nor for any dental problems resulting from following or ignoring reminders. Maximum liability shall not exceed the amount you paid for the App ($0).</p>
+
+            <h3>7. Third-Party Links</h3>
+            <p>Educational articles or video suggestions may reference external sites. We are not responsible for the content or privacy practices of third-party sites.</p>
+
+            <h3>8. Termination</h3>
+            <p>You may stop using the App at any time by uninstalling it. We may suspend or terminate access if you violate these terms.</p>
+
+            <h3>9. Changes to Terms</h3>
+            <p>We may update these terms occasionally. Continued use after changes constitutes acceptance.</p>
+
+            <h3>10. Contact</h3>
+            <p>📧 legal@oralhealthtracker.com</p>
+            
+            <h3>11. Governing Law</h3>
+            <p>These terms are governed by the laws of your country of residence.</p>
+        </div>
+
+        <!-- Content Rating & Additional Info -->
+        <div class="card">
+            <h2>🎯 Content Rating & Compliance</h2>
+            <p><strong>IARC Rating:</strong> Everyone / 3+ (PEGI) / All Ages — no violence, no sexual content, no drugs, no gambling, no interactive elements with others. The App contains no ads and no in-app purchases.</p>
+            <p><strong>Target Audience:</strong> All ages (children, adults, seniors). The App is designed for general oral health tracking.</p>
+            <p><strong>Google Play Categories:</strong> Health & Fitness</p>
+            <p><strong>Required permissions justification:</strong> Alarms need exact scheduling permission to trigger timely reminders; notification permission for Android 13+ devices to show alerts.</p>
+        </div>
+    </div>
+
+    <!-- ARABIC SECTION -->
+    <div id="section-ar" class="lang-section">
+        <div class="card">
+            <h1>🦷 Oral Health Tracker <span class="badge">الخصوصية والمركز القانوني</span></h1>
+            <p><strong>إصدار التطبيق 1.0</strong> — آخر تحديث: 18 مايو 2026</p>
+            <p style="margin-top: 8px;">تحتوي هذه الصفحة على سياسة الخصوصية الرسمية واتفاقية المستخدم ومعلومات تقييم المحتوى لتطبيق Oral Health Tracker. جميع المستندات متاحة باللغتين العربية والإنجليزية.</p>
+        </div>
+
+        <!-- PRIVACY POLICY (AR) -->
+        <div class="card">
+            <h2>📘 سياسة الخصوصية</h2>
+            <div class="effective-date">✅ تاريخ السريان: 18 مايو 2026</div>
+            
+            <h3>1. نظرة عامة</h3>
+            <p>تطبيق Oral Health Tracker ("التطبيق") هو تطبيق صحي ولياقي بدني يساعد المستخدمين في الحفاظ على نظافة الفم من خلال التذكيرات والمحتوى التعليمي. تشرح هذه السياسة كيفية تعاملنا مع معلوماتك — <strong>نحن لا نجمع أي بيانات</strong>.</p>
+
+            <h3>2. جمع البيانات - الحد الأدنى حسب التصميم</h3>
+            <p><strong>نحن لا نقوم بجمع أو تخزين أو نقل أي بيانات شخصية إلى أي خوادم.</strong> يعمل التطبيق بالكامل دون اتصال بالإنترنت. جميع التنبيهات والإعدادات وبيانات التتبع تُخزن محلياً على جهازك باستخدام SharedPreferences في أندرويد.</p>
+            
+            <h4>ما لا نقوم بجمعه:</h4>
+            <ul>
+                <li>الأسماء، البريد الإلكتروني، أرقام الهواتف، أو العناوين</li>
+                <li>بيانات الموقع</li>
+                <li>معرفات الجهاز (IMEI، عنوان MAC، إلخ)</li>
+                <li>إحصائيات الاستخدام أو سجلات الأعطال</li>
+                <li>أي بيانات صحية أو بيومترية</li>
+            </ul>
+
+            <h4>ما يتم تخزينه محلياً (على جهازك فقط):</h4>
+            <ul>
+                <li>عناوين التنبيهات وأوقاتها</li>
+                <li>تفضيلات أيام التكرار</li>
+                <li>عدادات التقدم / الآثار السلبية</li>
+            </ul>
+
+            <h3>3. الأذونات</h3>
+            <table class="permission-table">
+                <thead><tr><th>الإذن</th><th>الغرض</th></tr></thead>
+                <tbody>
+                    <tr><td>SCHEDULE_EXACT_ALARM</td><td>لتعيين أوقات تنبيه دقيقة لتذكيرات العناية بالفم</td></tr>
+                    <tr><td>POST_NOTIFICATIONS (أندرويد 13+)</td><td>لإرسال إشعارات التذكير</td></tr>
+                </tbody>
+            </table>
+            <p>تُستخدم هذه الأذونات فقط للوظيفة الأساسية للتذكيرات. لا يتم جمع أو نقل أي بيانات من هذه الأذونات.</p>
+
+            <h3>4. خدمات الطرف الثالث</h3>
+            <p><strong>لا يستخدم التطبيق أي خدمات خارجية</strong> — لا SDKs تحليلات، لا شبكات إعلانية، لا أدوات تقارير الأعطال، لا تخزين سحابي.</p>
+
+            <h3>5. خصوصية الأطفال</h3>
+            <p>التطبيق مناسب لجميع الأعمار. نحن لا نجمع عمداً أي معلومات شخصية من الأطفال دون سن 13. نظراً لأن التطبيق لا يخزن بيانات خارجياً ولا ينقل أي شيء، فبيانات الأطفال ليست في خطر.</p>
+
+            <h3>6. أمان البيانات</h3>
+            <p>نظراً لأن التطبيق لا يجمع أو ينقل البيانات، فلا توجد بيانات يمكن اعتراضها أو اختراقها. جميع البيانات المحلية مخزنة داخل بيئة أندرويد المعزولة، والتي لا يمكن لتطبيقات أخرى الوصول إليها بدون صلاحيات الجذر.</p>
+
+            <h3>7. حقوقك</h3>
+            <p>لديك السيطرة الكاملة: <strong>حذف البيانات</strong> عبر إلغاء تثبيت التطبيق. <strong>تعديل البيانات</strong> عن طريق تحرير أو حذف التنبيهات في أي وقت.</p>
+
+            <h3>8. التغييرات على سياسة الخصوصية</h3>
+            <p>قد نقوم بتحديث سياسة الخصوصية هذه أحياناً. سيتم نشر أي تغييرات على هذه الصفحة مع تحديث تاريخ السريان.</p>
+
+            <h3>9. اتصل بنا</h3>
+            <p>📧 <strong>البريد الإلكتروني:</strong> privacy@oralhealthtracker.com</p>
+            <hr>
+            <p><em>تسري سياسة الخصوصية هذه على Oral Health Tracker الإصدار 1.0 وما فوق.</em></p>
+        </div>
+
+        <!-- TERMS OF SERVICE (AR) -->
+        <div class="card">
+            <h2>⚖️ اتفاقية المستخدم (شروط الخدمة)</h2>
+            <div class="effective-date">📅 تاريخ السريان: 18 مايو 2026</div>
+            
+            <h3>1. قبول الشروط</h3>
+            <p>بتحميلك أو تثبيتك أو استخدامك لتطبيق Oral Health Tracker ("التطبيق")، فإنك توافق على الالتزام بهذه الاتفاقية. إذا كنت لا توافق، فلا تستخدم التطبيق.</p>
+
+            <h3>2. وصف الخدمة</h3>
+            <p>يوفر التطبيق أدوات تذكير لنظافة الفم: تنبيهات قابلة للتخصيص للتنظيف واستخدام الخيط وتنظيف طقم الأسنان؛ تتبع التقدم؛ ومحتوى تعليمي (نصائح، مقالات، فيديوهات).</p>
+
+            <h3>3. ليس استشارة طبية — تنويه مهم</h3>
+            <p><strong>التطبيق هو أداة تذكير وتتبع فقط. لا يقدم استشارات طبية أو تشخيصاً أو علاجاً.</strong> استشر دائماً طبيب أسنان مؤهل لمشاكل صحة الفم. لا يغني التطبيق عن الرعاية المهنية، واستخدامك للتطبيق لا ينشئ علاقة طبيب-مريض.</p>
+
+            <h3>4. مسؤوليات المستخدم</h3>
+            <p>أنت توافق على استخدام التطبيق فقط للغرض المخصص له، وعدم محاولة الهندسة العكسية أو توزيعه، وعدم استخدامه بطريقة غير قانونية.</p>
+
+            <h3>5. الملكية الفكرية</h3>
+            <p>جميع المحتويات (نصوص، رسومات، شعارات، أكواد) مملوكة للمطور ومحمية بحقوق النشر. المحتوى التعليمي للاستخدام الشخصي فقط.</p>
+
+            <h3>6. الحد من المسؤولية</h3>
+            <p>إلى أقصى حد يسمح به القانون: يقدم التطبيق "كما هو" دون أي ضمانات. نحن غير مسؤولين عن التنبيهات الفائتة بسبب إعدادات الجهاز أو تحسين البطارية أو مشاكل النظام، ولا عن أي مشاكل أسنان ناتجة عن اتباع أو تجاهل التذكيرات. الحد الأقصى للمسؤولية لا يتجاوز المبلغ الذي دفعته مقابل التطبيق (0 دولار).</p>
+
+            <h3>7. روابط الأطراف الثالثة</h3>
+            <p>قد تشير المقالات التعليمية أو اقتراحات الفيديو إلى مواقع خارجية. نحن غير مسؤولين عن محتوى أو ممارسات الخصوصية لمواقع الأطراف الثالثة.</p>
+
+            <h3>8. الإنهاء</h3>
+            <p>يمكنك التوقف عن استخدام التطبيق في أي وقت عن طريق إلغاء تثبيته. يجوز لنا تعليق أو إنهاء الوصول إذا انتهكت هذه الشروط.</p>
+
+            <h3>9. التغييرات على الشروط</h3>
+            <p>قد نقوم بتحديث هذه الشروط أحياناً. الاستمرار في استخدام التطبيق بعد التغييرات يعني قبولك لها.</p>
+
+            <h3>10. الاتصال بنا</h3>
+            <p>📧 legal@oralhealthtracker.com</p>
+            
+            <h3>11. القانون الواجب التطبيق</h3>
+            <p>تخضع هذه الشروط لقوانين بلد إقامتك.</p>
+        </div>
+
+        <!-- Content Rating AR -->
+        <div class="card">
+            <h2>🎯 تقييم المحتوى والامتثال</h2>
+            <p><strong>تصنيف IARC:</strong> للجميع / 3+ (PEGI) / جميع الأعمار — لا عنف، لا محتوى جنسي، لا مخدرات، لا قمار، لا تفاعل مع مستخدمين آخرين. التطبيق لا يحتوي على إعلانات ولا مشتريات داخل التطبيق.</p>
+            <p><strong>الفئة المستهدفة:</strong> جميع الأعمار (أطفال، بالغون، كبار السن). التطبيق مصمم لتتبع صحة الفم العامة.</p>
+            <p><strong>فئة متجر Google Play:</strong> الصحة واللياقة البدنية</p>
+            <p><strong>مبررات الأذونات المطلوبة:</strong> تحتاج التنبيهات إلى إذن الجدولة الدقيق لإطلاق التذكيرات في الوقت المحدد؛ إذن الإشعارات لأجهزة أندرويد 13+ لعرض التنبيهات.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Oral Health Tracker — All data stays on your device. No internet required for core features.</p>
+        <p>📧 Developer contact: support@oralhealthtracker.com  |  🏥 For medical advice, consult your dentist.</p>
+        <p>📍 This page is hosted on GitHub Pages and serves as the official Privacy & Legal page for Google Play requirements.</p>
+    </footer>
+</div>
+
+<script>
+    const btnEn = document.getElementById('btn-en');
+    const btnAr = document.getElementById('btn-ar');
+    const sectionEn = document.getElementById('section-en');
+    const sectionAr = document.getElementById('section-ar');
+
+    function setLanguage(lang) {
+        if (lang === 'en') {
+            sectionEn.classList.add('active-lang');
+            sectionAr.classList.remove('active-lang');
+            btnEn.classList.add('active');
+            btnAr.classList.remove('active');
+            document.documentElement.lang = 'en';
+            document.title = 'Oral Health Tracker - Privacy & Terms (English)';
+        } else {
+            sectionEn.classList.remove('active-lang');
+            sectionAr.classList.add('active-lang');
+            btnEn.classList.remove('active');
+            btnAr.classList.add('active');
+            document.documentElement.lang = 'ar';
+            document.title = 'Oral Health Tracker - الخصوصية والاتفاقية (عربي)';
+        }
+    }
+
+    btnEn.addEventListener('click', () => setLanguage('en'));
+    btnAr.addEventListener('click', () => setLanguage('ar'));
+
+    // Check URL hash to set default language if needed
+    if (window.location.hash === '#ar') setLanguage('ar');
+    else if (window.location.hash === '#en') setLanguage('en');
+    else setLanguage('en');
+</script>
+</body>
+</html>

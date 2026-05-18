@@ -1,0 +1,7 @@
+Version 1.0 - Initial Release
+
+• Set custom alarms for brushing, flossing, and denture cleaning
+• Track your daily streak with the Consequences counter
+• Educational tips, articles, and videos for better oral health
+• Arabic and English language support
+• All data stored locally - no internet required

@@ -1,0 +1,24 @@
+┌─────────────────────────────────────────────────────────────┐
+│           ORAL HEALTH TRACKER - PLAY STORE READY            │
+├─────────────────────────────────────────────────────────────┤
+│ App Name:    Oral Health Tracker - Dental Care              │
+│ Category:    Health & Fitness                               │
+│ Price:       Free                                            │
+│ Age Rating:  Everyone / 3+ (PEGI) / All Ages                │
+│ Languages:   English, Arabic                                 │
+├─────────────────────────────────────────────────────────────┤
+│ REQUIRED DOCUMENTS (provide URLs):                          │
+│ • Privacy Policy: https://yourdomain.com/privacy.html       │
+│ • Terms of Service: Included in-app                          │
+├─────────────────────────────────────────────────────────────┤
+│ REQUIRED GRAPHICS:                                          │
+│ • App Icon (512x512)                                        │
+│ • Feature Graphic (1024x500)                                │
+│ • Screenshots (use your 8 provided images)                  │
+├─────────────────────────────────────────────────────────────┤
+│ PERMISSIONS:                                                │
+│ • SCHEDULE_EXACT_ALARM - for reminder timing                │
+│ • POST_NOTIFICATIONS - for push notifications               │
+├─────────────────────────────────────────────────────────────┤
+│ STATUS: Ready for upload                                     │
+└─────────────────────────────────────────────────────────────┘
