@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Oral Health Tracker – Complete Google Play Store Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #eef5ee;
+            color: #1a2e1a;
+            line-height: 1.5;
+            padding: 24px 20px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* header */
+        .header {
+            background: linear-gradient(135deg, #1f4f1f, #2d6a2d);
+            color: white;
+            padding: 32px 40px;
+            border-radius: 48px;
+            margin-bottom: 32px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: #ffd966;
+            color: #2c4b2c;
+            padding: 6px 14px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+        }
+
+        /* Grid + cards */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 28px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 32px;
+            padding: 24px 28px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+            transition: transform 0.1s ease;
+            border: 1px solid #e2f0e2;
+        }
+
+        .card-full {
+            grid-column: 1 / -1;
+        }
+
+        .card h2 {
+            font-size: 1.6rem;
+            color: #2a5e2a;
+            margin-bottom: 20px;
+            border-left: 6px solid #3c9e3c;
+            padding-left: 16px;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin: 20px 0 12px 0;
+            color: #2c6e2c;
+        }
+
+        .step-list, .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .step-list li, .checklist li {
+            margin-bottom: 14px;
+            padding-left: 28px;
+            position: relative;
+        }
+
+        .step-list li::before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+            color: #2c9e2c;
+            font-weight: bold;
+        }
+
+        .checklist li::before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            color: #2c6e2c;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .highlight {
+            background: #fef9e3;
+            padding: 16px 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #f4b942;
+        }
+
+        .permission-table, .graphics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            background: #fafefa;
+            border-radius: 20px;
+            overflow: hidden;
+            font-size: 0.9rem;
+        }
+
+        .permission-table th, .graphics-table th,
+        .permission-table td, .graphics-table td {
+            border: 1px solid #cde2cd;
+            padding: 10px 14px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .permission-table th, .graphics-table th {
+            background: #e2f0e2;
+            font-weight: 600;
+        }
+
+        .btn-copy {
+            background: #eef3ee;
+            border: 1px solid #aacfaa;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-left: 12px;
+        }
+
+        .btn-copy:hover {
+            background: #cde2cd;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-bottom: 24px;
+        }
+
+        .lang-btn {
+            background: white;
+            border: 2px solid #2c6e2c;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .lang-btn.active {
+            background: #2c6e2c;
+            color: white;
+        }
+
+        .privacy-terms-content {
+            display: block;
+        }
+        .privacy-terms-content[data-lang="ar"] {
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 48px;
+            padding: 28px;
+            background: #e2eedd;
+            border-radius: 32px;
+            font-size: 0.85rem;
+            color: #2a4b2a;
+        }
+
+        @media (max-width: 700px) {
+            .card {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 1.6rem;
+            }
+        }
+        hr {
+            margin: 18px 0;
+            border: none;
+            height: 1px;
+            background: #cde2cd;
+        }
+        .tag {
+            background: #e2f0e2;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="lang-switch">
+        <button class="lang-btn active" id="lang-en-btn">🇬🇧 English</button>
+        <button class="lang-btn" id="lang-ar-btn">🇸🇦 العربية</button>
+    </div>
+
+    <!-- Dynamic language sections -->
+    <div id="en-content">
+        <div class="header">
+            <h1>🦷 Oral Health Tracker <span class="badge">Google Play Store – Complete Launch Kit</span></h1>
+            <p>All-in-one guide: store listing, content rating, privacy policy, terms of service, publishing steps, and upload checklist. Ready to publish your oral health alarm app.</p>
+        </div>
+
+        <div class="grid-2">
+            <!-- Store Listing -->
+            <div class="card">
+                <h2>📱 Store Listing</h2>
+                <p><strong>App name:</strong> Oral Health Tracker - Dental Care</p>
+                <p><strong>Short description (80 chars):</strong><br> <code>Track brushing, flossing & denture care with smart reminders</code></p>
+                <p><strong>Full description:</strong> (English) – see below. Arabic version also ready.</p>
+                <div class="highlight">
+                    <strong>🌟 Key features:</strong> Smart alarms, streak tracking (Consequences counter), Tips, Articles, Videos, bilingual (EN/AR), offline-first, no data collection.
+                </div>
+                <p><strong>Category:</strong> Health & Fitness &nbsp;|&nbsp; <strong>Price:</strong> Free &nbsp;|&nbsp; <strong>Tags:</strong> oral health, dental care, flossing, denture cleaning, reminder</p>
+            </div>
+
+            <!-- Content Rating -->
+            <div class="card">
+                <h2>🎯 Content Rating (IARC)</h2>
+                <table class="permission-table">
+                    <tr><th>Question</th><th>Answer</th></tr>
+                    <tr><td>Violence</td><td>None</td></tr>
+                    <tr><td>Sexual / Nudity</td><td>None</td></tr>
+                    <tr><td>Offensive Language</td><td>None</td></tr>
+                    <tr><td>Drugs / Alcohol</td><td>None</td></tr>
+                    <tr><td>Gambling</td><td>None</td></tr>
+                    <tr><td>Interactive (users)</td><td>No</td></tr>
+                    <tr><td>In-app purchases</td><td>No</td></tr>
+                    <tr><td>Ads</td><td>No</td></tr>
+                </table>
+                <p><strong>Result:</strong> ESRB: Everyone / PEGI: 3+ / All ages. Suitable for children, adults, seniors.</p>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <!-- Permissions -->
+            <div class="card">
+                <h2>🔐 Permissions & Justification</h2>
+                <table class="permission-table">
+                    <tr><th>Permission</th><th>Purpose</th></tr>
+                    <tr><td>SCHEDULE_EXACT_ALARM</td><td>Set precise alarm times for oral care reminders</td></tr>
+                    <tr><td>POST_NOTIFICATIONS (Android 13+)</td><td>Send reminder notifications</td></tr>
+                </table>
+                <p>✅ No sensitive permissions. No location, contacts, or camera.</p>
+            </div>
+
+            <!-- Graphics / Assets -->
+            <div class="card">
+                <h2>🖼️ Required Graphics</h2>
+                <table class="graphics-table">
+                    <tr><th>Asset</th><th>Size / Format</th></tr>
+                    <tr><td>App Icon</td><td>512x512 PNG</td></tr>
+                    <tr><td>Feature Graphic</td><td>1024x500 PNG/JPG</td></tr>
+                    <tr><td>Screenshots</td><td>Min 2, recommended 8 (1080x1920 min) – use your existing screenshots</td></tr>
+                </table>
+                <p>📸 <strong>Your existing screenshots:</strong> “Brushing my teeth”, “Clean my denture”, “flossing”, add alarm dialogs, Arabic interface. Perfect for listing.</p>
+            </div>
+        </div>
+
+        <!-- Privacy + Terms (condensed, fully compliant) -->
+        <div class="card card-full">
+            <h2>📄 Privacy Policy & Terms of Service (English)</h2>
+            <div class="highlight">
+                <strong>🔒 Privacy Policy – Key facts:</strong> No data collection. All data stays on device. No analytics, no third-party SDKs. Offline-first.
+            </div>
+            <h3>Privacy Policy summary:</h3>
+            <ul class="step-list" style="margin-left: 0;">
+                <li>We do NOT collect names, emails, location, device IDs, or health data.</li>
+                <li>Local storage only: alarm titles, times, repeat days, consequence counters.</li>
+                <li>Permissions only for exact alarms and notifications – explained.</li>
+                <li>Children's privacy: No data collected from anyone under 13.</li>
+                <li>Contact: privacy@oralhealthtracker.com</li>
+            </ul>
+            <h3>Terms of Service summary:</h3>
+            <ul class="step-list">
+                <li>App is a reminder tool – no medical advice. Always consult a dentist.</li>
+                <li>“As is” – no liability for missed alarms or dental issues.</li>
+                <li>You agree not to reverse engineer or misuse the app.</li>
+                <li>Governing law: country of residence.</li>
+            </ul>
+            <p><strong>🌐 Full privacy policy & terms (bilingual) hosted on GitHub Pages:</strong> <br> Use the HTML page we created earlier: <code>https://yourusername.github.io/oral-health-privacy/</code> (replace with your actual GitHub Pages link).</p>
+            <button id="copyPrivacyLink" class="btn-copy">📋 Copy sample privacy URL</button>
+            <span id="copyFeedback" style="margin-left: 10px; font-size:0.8rem;"></span>
+        </div>
+
+        <!-- Steps to upload to Google Play Store -->
+        <div class="card card-full">
+            <h2>🚀 Step-by-Step: Upload to Google Play Store</h2>
+            <ol style="margin-left: 24px; margin-bottom: 24px;">
+                <li><strong>Create developer account</strong> at <a href="https://play.google.com/console" target="_blank">play.google.com/console</a> ($25 one-time fee).</li>
+                <li><strong>Set up tax information</strong> (W-9 or local equivalent).</li>
+                <li><strong>Click "Create app"</strong> → default language English, app name: "Oral Health Tracker - Dental Care".</li>
+                <li><strong>Prepare store listing</strong> – upload screenshots, feature graphic, icon, short/long description (use texts above).</li>
+                <li><strong>Complete content rating</strong> – use IARC answers from the table (all “None” / “No”).</li>
+                <li><strong>Add privacy policy URL</strong> – paste your GitHub Pages link (hosted HTML).</li>
+                <li><strong>Set “Pricing & distribution”</strong> → Free, all countries selected.</li>
+                <li><strong>Upload app bundle (AAB)</strong> – Build → Generate Signed Bundle / APK → Android App Bundle. Use your keystore.</li>
+                <li><strong>Fill release notes</strong> (English & Arabic – see below).</li>
+                <li><strong>Review & rollout</strong> → “Start rollout to Production”. Wait 2–6 hours for review.</li>
+            </ol>
+
+            <div class="highlight">
+                <strong>📝 Release Notes (English):</strong><br>
+                Version 1.0 – Initial release: set custom alarms for brushing, flossing, denture cleaning; streak tracking; educational tips/articles/videos; bilingual EN/AR; zero data collection.
+            </div>
+            <div class="highlight">
+                <strong>📝 Release Notes (Arabic):</strong><br>
+                الإصدار 1.0 – الإصدار الأول: تعيين تنبيهات مخصصة للتنظيف والخيط والأسنان؛ تتبع التقدم؛ نصائح ومقالات وفيديوهات؛ دعم العربية والإنجليزية؛ لا يتم جمع أي بيانات.
+            </div>
+        </div>
+
+        <!-- Checklist Before Upload -->
+        <div class="card card-full">
+            <h2>✔️ Pre-Launch Checklist</h2>
+            <div class="grid-2" style="grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 20px;">
+                <div>
+                    <ul class="checklist">
+                        <li>Developer account active & verified</li>
+                        <li>Privacy policy hosted online (GitHub Pages)</li>
+                        <li>App icon (512x512)</li>
+                        <li>Feature graphic (1024x500)</li>
+                        <li>At least 2 screenshots (you have 8)</li>
+                        <li>Short & full description entered</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="checklist">
+                        <li>Content rating completed & saved</li>
+                        <li>Permissions justification described</li>
+                        <li>App bundle (AAB) signed & uploaded</li>
+                        <li>Pricing: Free, all countries selected</li>
+                        <li>No misleading claims (medical disclaimer included)</li>
+                        <li>Tested on real device (alarm + notification)</li>
+                    </ul>
+                </div>
+            </div>
+            <p>✅ <strong>Common rejections to avoid:</strong> missing privacy policy URL, inaccurate rating, crashing on launch, unnecessary permissions.</p>
+        </div>
+
+        <!-- Additional Data safety section for Google Play -->
+        <div class="card card-full">
+            <h2>🛡️ Data Safety Section (Play Console)</h2>
+            <p>When filling "Data safety" form in Play Console, select:</p>
+            <ul>
+                <li>✅ No data collected or shared</li>
+                <li>✅ No user data is collected</li>
+                <li>✅ All data is local and encrypted (Android sandbox)</li>
+                <li>✅ No third-party libraries that collect data</li>
+                <li>✅ Security practices: data is stored only on device, no transmission</li>
+            </ul>
+            <p><strong>💡 Tip:</strong> Because the app uses no analytics and no crashlytics, you can honestly declare "No data collected".</p>
+        </div>
+
+        <footer>
+            <p>© 2026 Oral Health Tracker – Ready for Google Play. All legal documents comply with Google Play policies.<br>
+            📧 support@oralhealthtracker.com | 🌐 Host your privacy policy on GitHub Pages and paste the link into Play Console.</p>
+        </footer>
+    </div>
+
+    <!-- ARABIC VERSION (full same guide) -->
+    <div id="ar-content" style="display: none;">
+        <div class="header">
+            <h1>🦷 Oral Health Tracker <span class="badge">دليل شامل لمتجر Google Play</span></h1>
+            <p>دليل متكامل: قائمة المتجر، تقييم المحتوى، سياسة الخصوصية، شروط الخدمة، خطوات الرفع. تطبيق التذكير بصحة الفم جاهز للنشر.</p>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <h2>📱 بيانات المتجر</h2>
+                <p><strong>اسم التطبيق:</strong> Oral Health Tracker - Dental Care</p>
+                <p><strong>الوصف القصير (80 حرف):</strong><br> <code>تتبع تنظيف الأسنان والخيط وطقم الأسنان مع تذكيرات ذكية</code></p>
+                <p><strong>الوصف الكامل:</strong> بالعربية (مكتوب مسبقاً – يشمل الميزات والتذكيرات والخصوصية).</p>
+                <div class="highlight">🌟 الميزات: تنبيهات ذكية، تتبع التقدم (عداد الآثار السلبية)، نصائح، مقالات، فيديوهات، دعم العربية/الإنجليزية، بدون إنترنت.</div>
+                <p><strong>الفئة:</strong> الصحة واللياقة &nbsp;|&nbsp; السعر: مجاني</p>
+            </div>
+            <div class="card">
+                <h2>🎯 تقييم المحتوى (IARC)</h2>
+                <table class="permission-table"><tr><th>السؤال</th><th>الإجابة</th></tr>
+                <tr><td>العنف</td><td>لا يوجد</td></tr><tr><td>محتوى جنسي</td><td>لا يوجد</td></tr>
+                <tr><td>لغة مسيئة</td><td>لا يوجد</td></tr><tr><td>مخدرات/كحول</td><td>لا يوجد</td></tr>
+                <tr><td>مقامرة</td><td>لا يوجد</td></tr>
+                <tr><td>مشتريات داخل التطبيق</td><td>لا</td></tr></table>
+                <p>النتيجة: للجميع / 3+ (PEGI). مناسب لجميع الأعمار.</p>
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="card"><h2>🔐 الأذونات والتبرير</h2>
+                <table class="permission-table"><tr><th>الإذن</th><th>الغرض</th></tr>
+                <tr><td>SCHEDULE_EXACT_ALARM</td><td>ضبط وقت التنبيه بدقة</td></tr>
+                <tr><td>POST_NOTIFICATIONS</td><td>إرسال إشعارات التذكير</td></tr></table>
+            </div>
+            <div class="card"><h2>🖼️ الرسومات المطلوبة</h2>
+                <table class="graphics-table"><tr><th>الموضوع</th><th>الحجم</th></tr>
+                <tr><td>أيقونة التطبيق</td><td>512×512 PNG</td></tr>
+                <tr><td>صورة مميزة</td><td>1024×500</td></tr>
+                <tr><td>لقطات شاشة</td><td>استخدم اللقطات الموجودة (8 لقطات)</td></tr></table>
+            </div>
+        </div>
+        <div class="card card-full">
+            <h2>📄 سياسة الخصوصية & شروط الخدمة (العربية)</h2>
+            <div class="highlight"><strong>سياسة الخصوصية:</strong> لا يتم جمع أي بيانات. كل شيء مخزن محلياً. لا إعلانات ولا تحليلات.</div>
+            <p><strong>ملخص:</strong> لا أسماء، لا بريد إلكتروني، لا موقع، لا معرفات جهاز. التطبيق لا يتصل بالإنترنت للميزات الأساسية. الأذونات فقط للتنبيهات والإشعارات. للتواصل: privacy@oralhealthtracker.com</p>
+            <p><strong>شروط الخدمة:</strong> أداة تذكير فقط – ليست استشارة طبية. استشر طبيب أسنانك. استخدام التطبيق "كما هو". لا مسؤولية عن التنبيهات الفائتة. يمكنك إلغاء التثبيت في أي وقت لحذف البيانات.</p>
+            <p>📍 استضف صفحة HTML (السياسة والشروط) على GitHub Pages واستخدم الرابط في Google Play Console.</p>
+        </div>
+        <div class="card card-full">
+            <h2>🚀 خطوات الرفع لمتجر Google Play</h2>
+            <ol style="margin-right: 24px;">
+                <li>إنشاء حساب مطور ($25).</li>
+                <li>تعبير المعلومات الضريبية.</li>
+                <li>إنشاء تطبيق جديد بالاسم "Oral Health Tracker - Dental Care".</li>
+                <li>رفع اللقطات والأيقونة والوصف.</li>
+                <li>ملء استبيان تقييم المحتوى (IARC) – كل الإجابات لا/بدون.</li>
+                <li>إضافة رابط سياسة الخصوصية (GitHub Pages).</li>
+                <li>تحديد السعر: مجاني، جميع الدول.</li>
+                <li>رفع حزمة AAB الموقعة.</li>
+                <li>كتابة ملاحظات الإصدار (عربي/إنجليزي).</li>
+                <li>مراجعة ونشر الإصدار الإنتاجي.</li>
+            </ol>
+        </div>
+        <div class="card card-full">
+            <h2>✔️ قائمة التدقيق النهائية</h2>
+            <ul class="checklist"><li>حساب مطور نشط</li><li>سياسة الخصوصية منشورة</li><li>أيقونة + رسومات</li><li>لقطات شاشة</li><li>تقييم المحتوى مكتمل</li><li>رفع AAB</li><li>اختبار التنبيهات والإشعارات على جهاز حقيقي</li></ul>
+        </div>
+        <footer>© 2026 Oral Health Tracker – جاهز للنشر على Google Play. جميع المستندات متوافقة مع سياسات المتجر.</footer>
+    </div>
+</div>
+<script>
+    const enDiv = document.getElementById('en-content');
+    const arDiv = document.getElementById('ar-content');
+    const enBtn = document.getElementById('lang-en-btn');
+    const arBtn = document.getElementById('lang-ar-btn');
+
+    function setLanguage(lang) {
+        if (lang === 'ar') {
+            enDiv.style.display = 'none';
+            arDiv.style.display = 'block';
+            enBtn.classList.remove('active');
+            arBtn.classList.add('active');
+            document.dir = 'rtl';
+        } else {
+            enDiv.style.display = 'block';
+            arDiv.style.display = 'none';
+            enBtn.classList.add('active');
+            arBtn.classList.remove('active');
+            document.dir = 'ltr';
+        }
+    }
+
+    enBtn.addEventListener('click', () => setLanguage('en'));
+    arBtn.addEventListener('click', () => setLanguage('ar'));
+    setLanguage('en');
+
+    // copy privacy link helper
+    const copyBtn = document.getElementById('copyPrivacyLink');
+    const feedbackSpan = document.getElementById('copyFeedback');
+    if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            const sampleUrl = 'https://yourusername.github.io/oral-health-privacy/';
+            navigator.clipboard.writeText(sampleUrl);
+            feedbackSpan.textContent = '✓ Copied! Replace with your actual GitHub URL.';
+            setTimeout(() => { feedbackSpan.textContent = ''; }, 2000);
+        });
+    }
+</script>
+</body>
+</html>
