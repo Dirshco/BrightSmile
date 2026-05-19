@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oral Health Tracker</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="/_sdk/data_sdk.js"></script>
+  <style>
+    body { font-family: 'DM Sans', sans-serif; }
+    .page { display: none; }
+    .page.active { display: block; }
+    .fab-menu-item {
+      position: absolute; width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s cubic-bezier(0.68,-0.55,0.265,1.55);
+      opacity: 0; transform: scale(0);
+      pointer-events: none;
+    }
+    .fab-menu-item.open { opacity: 1; transform: scale(1); pointer-events: auto; }
+    .fab-toggle { transition: transform 0.3s ease; }
+    .fab-toggle.open { transform: rotate(45deg); }
+    .onboarding-step { display: none; }
+    .onboarding-step.active { display: block; }
+    .option-btn { transition: all 0.15s; }
+    .option-btn.selected { background: #0d9488 !important; color: white !important; }
+    /* Prevent layout shift during FAB animation */
+    #fab-items { position: relative; width: 0; height: 0; }
+  </style>
+  <script src="/_sdk/resizing_sdk.js" type="text/javascript"></script>
+</head>
+<body data-template-id="__page-root" class="min-h-screen w-full" style="background: rgb(240, 253, 250);">
+  
+  <!-- Onboarding -->
+  <div id="page-onboarding" class="page">
+   <div class="p-5 max-w-md mx-auto">
+    <div class="flex flex-col items-center mb-6 pt-8">
+     <img data-template-id="onboarding-hero-img" loading="lazy" class="canva-image w-32 h-32 rounded-full object-cover mb-4" src="https://images.pexels.com/photos/3845759/pexels-photo-3845759.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Smiling woman in a dental clinic holding a mirror, showcasing her bright smile.">
+     <h1 data-template-id="onboarding-title" class="canva-text font-bold text-center" style="color: rgb(17, 24, 39); font-weight: 700; font-style: normal; font-size: 26px;">Let's Set Up Your Oral Care</h1>
+     <p data-template-id="onboarding-subtitle" class="canva-text text-center mt-2" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Answer a few quick questions so we can personalize your reminders.</p>
+    </div>
+    
+    <!-- Step 1: Flossing -->
+    <div class="onboarding-step active" data-step="1">
+     <h2 data-template-id="onboard-q1-title" class="canva-text font-semibold mb-4" style="color: rgb(17, 24, 39); font-weight: 600; font-style: normal; font-size: 20px;">Do you floss?</h2>
+     <div class="grid grid-cols-2 gap-3">
+       <button type="button" class="option-btn p-3 rounded-xl bg-white shadow-sm font-medium text-gray-700 border" onclick="setAnswer(event, 'flosses','yes')">Yes</button> 
+       <button type="button" class="option-btn p-3 rounded-xl bg-white shadow-sm font-medium text-gray-700 border" onclick="setAnswer(event, 'flosses','no')">No</button>
+     </div>
+    </div>
+    
+    <!-- Step 2: Flossing frequency (conditionally shown) -->
+    <div class="onboarding-step" data-step="2">
+     <h2 data-template-id="onboard-q2-title" class="canva-text font-semibold mb-4" style="color: rgb(17, 24, 39); font-weight: 600; font-style: normal; font-size: 20px;">How often do you floss?</h2>
+     <div class="grid grid-cols-1 gap-3">
+       <button type="button" class="option-btn p-3 rounded-xl bg-white shadow-sm font-medium text-gray-700 border" onclick="setAnswer(event, 'floss_freq','qd')">Once daily (QD)</button> 
+       <button type="button" class="option-btn p-3 rounded-xl bg-white shadow-sm font-medium text-gray-700 border" onclick="setAnswer(event, 'floss_freq','bid')">Twice daily (BID)</button> 
+       <button type="button" class="option-btn p-3 rounded-xl bg-white shadow-sm font-medium text-gray-700 border" onclick="setAnswer(event, 'floss_freq','prn')">As needed (PRN)</button>
+     </div>
+    </div>
+    
+    <!-- Step 3: Brushing frequency -->
+    <div class="onboarding-step" data-step="3">
+     <h2 data-template-id="onboard-q3-title" class="canva-text font-semibold mb-4" style="color: rgb(17, 24, 39); font-weight: 600; font-style: normal; font-size: 20px;">How many times do you brush your teeth daily?</h2>
+     <div class="grid grid-cols-1 gap-3">
+       <button type="button" class="option-btn p-3 rounded-xl bg-white shadow-sm font-medium text-gray-700 border" onclick="setAnswer(event, 'brush_freq','once')">Once a day</button> 
+       <button type="button" class="option-btn p-3 rounded-xl bg-white shadow-sm font-medium text-gray-700 border" onclick="setAnswer(event, 'brush_freq','twice')">Twice a day</button> 
+       <button type="button" class="option-btn p-3 rounded-xl bg-white shadow-sm font-medium text-gray-700 border" onclick="setAnswer(event, 'brush_freq','three')">Three times a day</button>
+     </div>
+    </div>
+    
+    <!-- Step 4: Dentures -->
+    <div class="onboarding-step" data-step="4">
+     <h2 data-template-id="onboard-q4-title" class="canva-text font-semibold mb-4" style="color: rgb(17, 24, 39); font-weight: 600; font-style: normal; font-size: 20px;">Do you have dentures?</h2>
+     <div class="grid grid-cols-2 gap-3">
+       <button type="button" class="option-btn p-3 rounded-xl bg-white shadow-sm font-medium text-gray-700 border" onclick="setAnswer(event, 'has_dentures','yes')">Yes</button> 
+       <button type="button" class="option-btn p-3 rounded-xl bg-white shadow-sm font-medium text-gray-700 border" onclick="setAnswer(event, 'has_dentures','no')">No</button>
+     </div>
+    </div>
+    
+    <div class="mt-6 flex justify-between">
+      <button id="onboard-back" type="button" onclick="onboardBack()" class="px-4 py-2 rounded-lg text-gray-500 hidden">← Back</button> 
+      <button id="onboard-next" type="button" onclick="onboardNext()" class="px-6 py-2 rounded-lg bg-teal-600 text-white font-medium ml-auto hidden">Next →</button>
+    </div>
+   </div>
+  </div>
+  
+  <!-- Dashboard -->
+  <div id="page-dashboard" class="page">
+   <div class="relative">
+    <img data-template-id="hero-image" loading="lazy" class="canva-image w-full h-48 object-cover" src="https://images.pexels.com/photos/3762453/pexels-photo-3762453.jpeg?auto=compress&cs=tinysrgb&w=1280" alt="Vivid close-up image of a woman's smile showcasing red lipstick and white teeth on a light background.">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/60 flex items-end p-6">
+     <h1 data-template-id="dashboard-title" class="canva-text text-white font-bold" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 32px;">Your Oral Health</h1>
+    </div>
+   </div>
+   <div class="p-5 space-y-4">
+    <p data-template-id="dashboard-subtitle" class="canva-text" style="color: rgb(75, 85, 99); font-weight: 400; font-style: normal; font-size: 16px;">Log your daily habits to build a healthier smile</p>
+    <div class="grid grid-cols-2 gap-3">
+      <button onclick="logHabit('brushing')" data-template-id="log-brushing-btn" class="canva-button flex items-center gap-2 p-4 rounded-xl font-medium shadow-sm hover:shadow-md transition-shadow" style="background: rgb(255, 255, 255); color: rgb(15, 118, 110); font-weight: 500; font-style: normal; font-size: 16px;">🪥 Brushing</button> 
+      <button onclick="logHabit('flossing')" data-template-id="log-flossing-btn" class="canva-button flex items-center gap-2 p-4 rounded-xl font-medium shadow-sm hover:shadow-md transition-shadow" style="background: rgb(255, 255, 255); color: rgb(15, 118, 110); font-weight: 500; font-style: normal; font-size: 16px;">🦷 Flossing</button> 
+      <button onclick="logHabit('mouthwash')" data-template-id="log-mouthwash-btn" class="canva-button flex items-center gap-2 p-4 rounded-xl font-medium shadow-sm hover:shadow-md transition-shadow" style="background: rgb(255, 255, 255); color: rgb(15, 118, 110); font-weight: 500; font-style: normal; font-size: 16px;">💧 Mouthwash</button> 
+      <button onclick="logHabit('dentures')" data-template-id="log-dentures-btn" class="canva-button flex items-center gap-2 p-4 rounded-xl font-medium shadow-sm hover:shadow-md transition-shadow" style="background: rgb(255, 255, 255); color: rgb(15, 118, 110); font-weight: 500; font-style: normal; font-size: 16px;">🫧 Dentures</button>
+    </div>
+    <div data-template-id="today-summary-box" class="canva-card p-4 rounded-xl" style="background: rgb(255, 255, 255);">
+     <h3 data-template-id="today-summary-title" class="canva-text font-semibold mb-2" style="color: rgb(17, 24, 39); font-weight: 600; font-style: normal; font-size: 19px;">Today's Progress</h3>
+     <div id="today-count" class="text-2xl font-bold text-teal-600">0</div>
+     <p class="text-sm text-gray-500">habits logged today</p>
+    </div>
+   </div>
+  </div>
+  
+  <!-- History -->
+  <div id="page-history" class="page">
+   <div class="p-5">
+    <h1 data-template-id="history-title" class="canva-text font-bold mb-4" style="color: rgb(17, 24, 39); font-weight: 700; font-style: normal; font-size: 32px;">Habit History</h1>
+    <div id="history-list" class="space-y-3">
+     <p data-template-id="history-empty" class="canva-text text-center py-8" style="color: rgb(156, 163, 175); font-weight: 400; font-style: italic; font-size: 16px;">No habits logged yet. Start tracking from the dashboard!</p>
+    </div>
+   </div>
+  </div>
+  
+  <!-- Alarms -->
+  <div id="page-alarms" class="page">
+   <div class="p-5">
+    <h1 data-template-id="alarms-title" class="canva-text font-bold mb-4" style="color: rgb(17, 24, 39); font-weight: 700; font-style: normal; font-size: 32px;">Reminders</h1>
+    <p data-template-id="alarms-desc" class="canva-text mb-6" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Set daily alarms to never miss a habit</p>
+    <div class="space-y-3" id="alarm-list">
+     <div id="alarm-row-brushing" class="flex items-center justify-between p-4 rounded-xl bg-white shadow-sm">
+      <div class="flex items-center gap-3">
+       <span class="text-2xl">🪥</span>
+       <div>
+        <p data-template-id="alarm-brush-label" class="canva-text font-medium" style="color: rgb(17, 24, 39); font-weight: 500; font-style: normal; font-size: 16px;">Brush Teeth</p>
+        <input type="time" id="alarm-brush-time" value="07:00" class="text-sm text-gray-500 border rounded px-2 py-1">
+       </div>
+      </div>
+      <button onclick="toggleAlarm('brushing',this)" class="w-12 h-6 bg-gray-300 rounded-full relative transition-colors" aria-label="Toggle brushing reminder">
+        <span class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform"></span>
+      </button>
+     </div>
+     <div id="alarm-row-flossing" class="flex items-center justify-between p-4 rounded-xl bg-white shadow-sm">
+      <div class="flex items-center gap-3">
+       <span class="text-2xl">🦷</span>
+       <div>
+        <p data-template-id="alarm-floss-label" class="canva-text font-medium" style="color: rgb(17, 24, 39); font-weight: 500; font-style: normal; font-size: 16px;">Floss</p>
+        <input type="time" id="alarm-floss-time" value="21:00" class="text-sm text-gray-500 border rounded px-2 py-1">
+       </div>
+      </div>
+      <button onclick="toggleAlarm('flossing',this)" class="w-12 h-6 bg-gray-300 rounded-full relative transition-colors" aria-label="Toggle flossing reminder">
+        <span class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform"></span>
+      </button>
+     </div>
+     <div id="alarm-row-mouthwash" class="flex items-center justify-between p-4 rounded-xl bg-white shadow-sm">
+      <div class="flex items-center gap-3">
+       <span class="text-2xl">💧</span>
+       <div>
+        <p data-template-id="alarm-mouthwash-label" class="canva-text font-medium" style="color: rgb(17, 24, 39); font-weight: 500; font-style: normal; font-size: 16px;">Mouthwash</p>
+        <input type="time" id="alarm-mouthwash-time" value="07:30" class="text-sm text-gray-500 border rounded px-2 py-1">
+       </div>
+      </div>
+      <button onclick="toggleAlarm('mouthwash',this)" class="w-12 h-6 bg-gray-300 rounded-full relative transition-colors" aria-label="Toggle mouthwash reminder">
+        <span class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform"></span>
+      </button>
+     </div>
+     <div id="alarm-row-dentures" class="flex items-center justify-between p-4 rounded-xl bg-white shadow-sm">
+      <div class="flex items-center gap-3">
+       <span class="text-2xl">🫧</span>
+       <div>
+        <p data-template-id="alarm-dentures-label" class="canva-text font-medium" style="color: rgb(17, 24, 39); font-weight: 500; font-style: normal; font-size: 16px;">Clean Dentures</p>
+        <input type="time" id="alarm-dentures-time" value="22:00" class="text-sm text-gray-500 border rounded px-2 py-1">
+       </div>
+      </div>
+      <button onclick="toggleAlarm('dentures',this)" class="w-12 h-6 bg-gray-300 rounded-full relative transition-colors" aria-label="Toggle dentures reminder">
+        <span class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform"></span>
+      </button>
+     </div>
+    </div>
+    <div >
+    <button onclick="addNewAlarm()" data-template-id="export-btn" class="canva-button w-full p-3 rounded-xl font-medium flex items-center justify-center gap-2" style="background: rgb(13, 148, 136); color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">📄 Add New Alarm</button> 
+     
+    </div>
+    <div id="alarm-notification" class="hidden fixed top-4 left-4 right-4 bg-teal-600 text-white p-4 rounded-xl shadow-lg z-50 flex items-center justify-between" role="alert">
+      <span id="alarm-notification-text"></span> 
+      <button onclick="dismissAlarm()" class="ml-4 px-3 py-1 bg-white text-teal-600 rounded-lg font-medium text-sm">Dismiss</button>
+    </div>
+   </div>
+  </div>
+  
+  <!-- Education -->
+  <div id="page-education" class="page">
+   <div class="p-5">
+    <h1 data-template-id="education-title" class="canva-text font-bold mb-2" style="color: rgb(17, 24, 39); font-weight: 700; font-style: normal; font-size: 32px;">Learn &amp; Improve</h1>
+    <p data-template-id="education-subtitle" class="canva-text mb-6" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Watch expert videos on oral health care</p>
+    <div class="space-y-4">
+     <div class="block rounded-xl overflow-hidden shadow-sm bg-white">
+      <img data-template-id="edu-video-1-thumb" loading="lazy" class="canva-image w-full h-40 object-cover" src="https://images.pexels.com/photos/4269360/pexels-photo-4269360.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Dentist explaining dental care with model to patient in clinic setting">
+      <div class="p-4">
+       <h3 data-template-id="edu-video-1-title" class="canva-text font-semibold" style="color: rgb(17, 24, 39); font-weight: 600; font-style: normal; font-size: 19px;">Introduction to Oral Hygiene</h3>
+       <p data-template-id="edu-video-1-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Learn the fundamentals of keeping your mouth healthy every day.</p>
+       <a href="https://www.youtube.com/watch?v=Fhaxk03viJI" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-teal-600 font-medium text-sm hover:underline">▶ Watch on YouTube</a>
+      </div>
+     </div>
+     <div class="block rounded-xl overflow-hidden shadow-sm bg-white">
+      <img data-template-id="edu-video-2-thumb" loading="lazy" class="canva-image w-full h-40 object-cover" src="https://images.pexels.com/photos/6627325/pexels-photo-6627325.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Dentist in scrubs explains dental procedure to a patient in an office setting.">
+      <div class="p-4">
+       <h3 data-template-id="edu-video-2-title" class="canva-text font-semibold" style="color: rgb(17, 24, 39); font-weight: 600; font-style: normal; font-size: 19px;">Electric vs. Manual Toothbrush</h3>
+       <p data-template-id="edu-video-2-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Which is better for your teeth? Find out what dentists recommend.</p>
+       <a href="https://www.youtube.com/watch?v=8MnJ0dOzEGg" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-teal-600 font-medium text-sm hover:underline">▶ Watch on YouTube</a>
+      </div>
+     </div>
+     <div class="block rounded-xl overflow-hidden shadow-sm bg-white">
+      <img data-template-id="edu-video-3-thumb" loading="lazy" class="canva-image w-full h-40 object-cover" src="https://images.pexels.com/photos/6502308/pexels-photo-6502308.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Close-up of a dental model with floss, symbolizing oral hygiene and dental care.">
+      <div class="p-4">
+       <h3 data-template-id="edu-video-3-title" class="canva-text font-semibold" style="color: rgb(17, 24, 39); font-weight: 600; font-style: normal; font-size: 19px;">Proper Flossing Technique</h3>
+       <p data-template-id="edu-video-3-desc" class="canva-text text-sm mt-1" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Most people floss wrong. Learn the correct method to protect your gums.</p>
+       <a href="https://www.youtube.com/watch?v=CSbkvmQOjcw" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-teal-600 font-medium text-sm hover:underline">▶ Watch on YouTube</a>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  
+  <!-- Profile -->
+  <div id="page-profile" class="page">
+   <div class="p-5">
+    <h1 data-template-id="profile-title" class="canva-text font-bold mb-6" style="color: rgb(17, 24, 39); font-weight: 700; font-style: normal; font-size: 32px;">Profile</h1>
+    <div class="flex flex-col items-center mb-6">
+     <div class="w-24 h-24 rounded-full bg-teal-100 flex items-center justify-center text-4xl mb-3" aria-label="User avatar">
+      😊
+     </div>
+     <h2 data-template-id="profile-name" class="canva-text font-semibold" style="color: rgb(17, 24, 39); font-weight: 600; font-style: normal; font-size: 20px;">Smile Champion</h2>
+     <p data-template-id="profile-email" class="canva-text text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Track your journey to better oral health</p>
+    </div>
+    <div class="space-y-3">
+     <div data-template-id="profile-stats-box" class="canva-card p-4 rounded-xl" style="background: rgb(255, 255, 255);">
+      <h3 data-template-id="profile-stats-title" class="canva-text font-semibold mb-2" style="color: rgb(17, 24, 39); font-weight: 600; font-style: normal; font-size: 19px;">Lifetime Stats</h3>
+      <p id="total-habits-logged" class="text-3xl font-bold text-teal-600">0</p>
+      <p class="text-sm text-gray-500">total habits logged</p>
+     </div>
+     <button onclick="exportLog()" data-template-id="export-btn" class="canva-button w-full p-3 rounded-xl font-medium flex items-center justify-center gap-2" style="background: rgb(13, 148, 136); color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">📄 Export Log</button> 
+     <button onclick="resetOnboarding()" class="w-full p-3 rounded-xl font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors">Redo Onboarding</button>
+    </div>
+   </div>
+  </div>
+  
+  <!-- FAB Navigation -->
+  <div id="fab-container" class="fixed right-5 top-1/2 -translate-y-1/2 z-40">
+   <div id="fab-items" class="relative">
+    <button onclick="fabNavigate('dashboard')" class="fab-menu-item bg-teal-500 text-white shadow-lg" data-index="0" title="Dashboard" aria-label="Go to dashboard">
+      <i data-lucide="home" style="width:20px;height:20px"></i>
+    </button> 
+    <button onclick="fabNavigate('history')" class="fab-menu-item bg-teal-500 text-white shadow-lg" data-index="1" title="History" aria-label="View history">
+      <i data-lucide="clock" style="width:20px;height:20px"></i>
+    </button> 
+    <button onclick="fabNavigate('alarms')" class="fab-menu-item bg-teal-500 text-white shadow-lg" data-index="2" title="Reminders" aria-label="Manage reminders">
+      <i data-lucide="bell" style="width:20px;height:20px"></i>
+    </button> 
+    <button onclick="fabNavigate('education')" class="fab-menu-item bg-teal-500 text-white shadow-lg" data-index="3" title="Education" aria-label="View educational content">
+      <i data-lucide="play" style="width:20px;height:20px"></i>
+    </button> 
+    <button onclick="fabNavigate('profile')" class="fab-menu-item bg-teal-500 text-white shadow-lg" data-index="4" title="Profile" aria-label="View profile">
+      <i data-lucide="user" style="width:20px;height:20px"></i>
+    </button>
+   </div>
+   <button id="fab-btn" onclick="toggleFab()" class="relative z-10 w-14 h-14 rounded-full bg-teal-600 text-white shadow-xl flex items-center justify-center hover:bg-teal-700 transition-colors" aria-label="Toggle navigation menu" aria-expanded="false">
+    <svg class="fab-toggle w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+     <line x1="12" y1="5" x2="12" y2="19"></line>
+     <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+   </button>
+  </div>
+  
+  <!-- History item template -->
+  <template id="history-item-template">
+   <div data-template-id="history-item" class="canva-card flex items-center gap-3 p-3 rounded-xl">
+    <span class="history-icon text-xl" aria-hidden="true"></span>
+    <div class="flex-1">
+     <p class="history-type font-medium text-gray-800"></p>
+     <p class="history-time text-xs text-gray-400"></p>
+    </div>
+    <button class="history-delete text-gray-300 hover:text-red-500 transition-colors" aria-label="Delete habit entry">
+      <i data-lucide="trash-2" style="width:16px;height:16px"></i>
+    </button>
+   </div>
+  </template>
+  
+  <script src="/_sdk/editing_sdk.js"></script>
+  <script>
+  let allData = [];
+  let fabOpen = false;
+  let alarms = {};
+  let alarmIntervals = {};
+  let audioCtx = null;
+  let onboardAnswers = {};
+  let onboardStep = 1;
+  let triggeredAlarms = {}; // Track alarms triggered this minute to prevent duplicates
+
+  const ICONS = { brushing:'🪥', flossing:'🦷', mouthwash:'💧', dentures:'🫧' };
+  const ALARM_ID_MAP = {
+    'brushing': 'brush',
+    'flossing': 'floss',
+    'mouthwash': 'mouthwash',
+    'dentures': 'dentures'
+  };
+
+  // Onboarding logic
+  function checkOnboarding() {
+    const saved = localStorage.getItem('oral_onboard');
+    if (saved) {
+      try {
+        onboardAnswers = JSON.parse(saved);
+        showPage('dashboard');
+        applyOnboardingToAlarms();
+      } catch (e) {
+        console.error('Failed to parse onboarding data:', e);
+        showPage('onboarding');
+      }
+    } else {
+      showPage('onboarding');
+    }
+  }
+ 
+  function addNewAlarm(){
+    toggleFab();  
+  }
+ 
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const page = document.getElementById('page-' + name);
+    if (page) page.classList.add('active');
+    
+    // Hide FAB on onboarding
+    const fab = document.getElementById('fab-container');
+    if (fab) fab.style.display = name === 'onboarding' ? 'none' : '';
+    
+    // Update FAB aria-expanded
+    const fabBtn = document.getElementById('fab-btn');
+    if (fabBtn) fabBtn.setAttribute('aria-expanded', fabOpen && name !== 'onboarding');
+  }
+
+  function setAnswer(evt, key, val) {
+    evt?.preventDefault?.();
+    onboardAnswers[key] = val;
+    
+    // Highlight selected
+    const step = document.querySelector('.onboarding-step.active');
+    if (step) {
+      step.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      if (evt?.currentTarget) {
+        evt.currentTarget.classList.add('selected');
+      }
+    }
+    document.getElementById('onboard-next').classList.remove('hidden');
+  }
+
+  function onboardNext() {
+    // Skip step 2 if user doesn't floss
+    if (onboardStep === 1 && onboardAnswers.flosses === 'no') {
+      onboardStep = 2; // Will increment to 3, skipping floss_freq
+    }
+    onboardStep++;
+    
+    if (onboardStep > 4) {
+      finishOnboarding();
+      return;
+    }
+    showOnboardStep();
+  }
+
+  function onboardBack() {
+    // Handle skip logic when going back
+    if (onboardStep === 3 && onboardAnswers.flosses === 'no') {
+      onboardStep = 1; // Skip back over step 2
+    } else {
+      onboardStep = Math.max(1, onboardStep - 1);
+    }
+    showOnboardStep();
+  }
+
+  function showOnboardStep() {
+    document.querySelectorAll('.onboarding-step').forEach(s => s.classList.remove('active'));
+    const currentStep = document.querySelector(`.onboarding-step[data-step="${onboardStep}"]`);
+    if (currentStep) currentStep.classList.add('active');
+    
+    const backBtn = document.getElementById('onboard-back');
+    const nextBtn = document.getElementById('onboard-next');
+    
+    if (backBtn) backBtn.classList.toggle('hidden', onboardStep === 1);
+    if (nextBtn) nextBtn.classList.add('hidden');
+    
+    // Show next if already answered
+    const keys = {1:'flosses', 2:'floss_freq', 3:'brush_freq', 4:'has_dentures'};
+    if (onboardAnswers[keys[onboardStep]] && nextBtn) {
+      nextBtn.classList.remove('hidden');
+    }
+    
+    // Hide step 2 entirely if user doesn't floss
+    const step2 = document.querySelector('.onboarding-step[data-step="2"]');
+    if (step2) {
+      step2.style.display = (onboardAnswers.flosses === 'no') ? 'none' : '';
+    }
+  }
+
+  function finishOnboarding() {
+    localStorage.setItem('oral_onboard', JSON.stringify(onboardAnswers));
+    applyOnboardingToAlarms();
+    showPage('dashboard');
+  }
+
+  function applyOnboardingToAlarms() {
+    const flossRow = document.getElementById('alarm-row-flossing');
+    const dentureRow = document.getElementById('alarm-row-dentures');
+    if (flossRow) flossRow.style.display = onboardAnswers.flosses === 'yes' ? '' : 'none';
+    if (dentureRow) dentureRow.style.display = onboardAnswers.has_dentures === 'yes' ? '' : 'none';
+  }
+
+  function resetOnboarding() {
+    localStorage.removeItem('oral_onboard');
+    onboardAnswers = {};
+    onboardStep = 1;
+    showOnboardStep();
+    showPage('onboarding');
+  }
+
+  // Data SDK
+  const dataHandler = {
+    onDataChanged(data) {
+      allData = Array.isArray(data) ? data : [];
+      renderHistory();
+      updateCounts();
+    }
+  };
+
+  async function initApp() {
+    // Gracefully handle missing SDK
+    if (!window.dataSdk) {
+      console.warn('Data SDK not loaded - running in demo mode');
+      checkOnboarding();
+      return;
+    }
+    
+    checkOnboarding();
+    try {
+      const r = await window.dataSdk.init(dataHandler);
+      if (!r?.isOk) console.error('SDK init failed:', r);
+    } catch (e) {
+      console.error('SDK initialization error:', e);
+    }
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+  } else {
+    initApp();
+  }
+
+  function updateCounts() {
+    const today = new Date().toISOString().split('T')[0];
+    const todayCount = allData.filter(d => d.logged_at && d.logged_at.startsWith(today)).length;
+    const todayEl = document.getElementById('today-count');
+    const totalEl = document.getElementById('total-habits-logged');
+    
+    if (todayEl) todayEl.textContent = todayCount;
+    if (totalEl) totalEl.textContent = allData.length;
+  }
+
+  function renderHistory() {
+    const container = document.getElementById('history-list');
+    if (!container) return;
+    
+    const empty = container.querySelector('[data-template-id="history-empty"]');
+    if (allData.length === 0) { 
+      if (empty) empty.style.display = ''; 
+      return; 
+    }
+    if (empty) empty.style.display = 'none';
+    
+    // Clear existing items except empty message
+    const existingItems = container.querySelectorAll('[data-id]');
+    existingItems.forEach(el => el.remove());
+    
+    const sorted = [...allData].sort((a,b) => (b.logged_at||'').localeCompare(a.logged_at||''));
+    
+    sorted.forEach(item => {
+      const tpl = document.getElementById('history-item-template');
+      if (!tpl) return;
+      
+      const clone = tpl.content.cloneNode(true);
+      const wrapper = clone.querySelector('[data-template-id="history-item"]');
+      if (!wrapper) return;
+      
+      wrapper.dataset.id = item.__backendId || `local-${Date.now()}-${Math.random()}`;
+      
+      const iconEl = clone.querySelector('.history-icon');
+      const typeEl = clone.querySelector('.history-type');
+      const timeEl = clone.querySelector('.history-time');
+      const deleteBtn = clone.querySelector('.history-delete');
+      
+      if (iconEl) iconEl.textContent = ICONS[item.habit_type] || '🦷';
+      if (typeEl) typeEl.textContent = item.habit_type?.replace(/^\w/, c => c.toUpperCase()) || 'Habit';
+      if (timeEl && item.logged_at) timeEl.textContent = new Date(item.logged_at).toLocaleString();
+      
+      if (deleteBtn && typeof deleteHabit === 'function') {
+        deleteBtn.addEventListener('click', () => deleteHabit(item));
+      }
+      
+      container.appendChild(clone);
+    });
+    
+    // Create icons once after all items added
+    if (window.lucide) lucide.createIcons();
+  }
+
+  async function logHabit(type) {
+    if (allData.length >= 999) { 
+      showToast('Limit reached! Delete old entries first.'); 
+      return; 
+    }
+    
+    const btn = event?.currentTarget;
+    if (btn) {
+      btn.disabled = true; 
+      btn.style.opacity = '0.6';
+    }
+    
+    try {
+      const payload = { 
+        habit_type: type, 
+        logged_at: new Date().toISOString(), 
+        notes: '' 
+      };
+      
+      if (window.dataSdk?.create) {
+        const r = await window.dataSdk.create(payload);
+        if (!r?.isOk) throw new Error(r?.error || 'Unknown error');
+      } else {
+        // Demo mode: add to local array
+        payload.__backendId = `demo-${Date.now()}`;
+        allData.push(payload);
+        renderHistory();
+        updateCounts();
+      }
+    } catch (e) {
+      console.error('Error logging habit:', e);
+      showToast('Error logging habit');
+    } finally {
+      if (btn) {
+        btn.disabled = false; 
+        btn.style.opacity = '1';
+      }
+    }
+  }
+
+  async function deleteHabit(item) {
+    try {
+      if (window.dataSdk?.delete) {
+        const r = await window.dataSdk.delete(item);
+        if (!r?.isOk) throw new Error(r?.error || 'Delete failed');
+      } else {
+        // Demo mode: remove from local array
+        allData = allData.filter(d => d.__backendId !== item.__backendId);
+        renderHistory();
+        updateCounts();
+      }
+    } catch (e) {
+      console.error('Error deleting habit:', e);
+      showToast('Error deleting entry');
+    }
+  }
+
+  function showToast(msg) {
+    const el = document.getElementById('alarm-notification');
+    const textEl = document.getElementById('alarm-notification-text');
+    if (!el || !textEl) return;
+    
+    textEl.textContent = msg;
+    el.classList.remove('hidden');
+    
+    // Auto-dismiss after 3 seconds
+    setTimeout(() => {
+      if (el) el.classList.add('hidden');
+    }, 3000);
+  }
+
+  // FAB Navigation
+  function toggleFab() {
+    fabOpen = !fabOpen;
+    const toggleIcon = document.querySelector('.fab-toggle');
+    const fabBtn = document.getElementById('fab-btn');
+    
+    if (toggleIcon) toggleIcon.classList.toggle('open', fabOpen);
+    if (fabBtn) fabBtn.setAttribute('aria-expanded', fabOpen);
+    
+    const items = document.querySelectorAll('.fab-menu-item');
+    const radius = 75;
+    const total = items.length;
+    
+    items.forEach((item, i) => {
+      if (fabOpen) {
+        // Calculate angle: spread from -80° to +80°
+        const angle = (-80 + (160 / (total - 1 || 1)) * i) * (Math.PI / 180);
+        const x = -radius * Math.cos(angle);
+        const y = radius * Math.sin(angle);
+        item.style.left = `${x - 22}px`; // Center the 44px item
+        item.style.top = `${y - 22}px`;
+        item.classList.add('open');
+      } else {
+        item.style.left = '0px'; 
+        item.style.top = '0px';
+        item.classList.remove('open');
+      }
+    });
+  }
+
+  function fabNavigate(page) {
+    showPage(page);
+    if (fabOpen) toggleFab();
+  }
+
+  // Alarm System
+  function toggleAlarm(type, btn) {
+    const active = !alarms[type];
+    alarms[type] = active;
+    
+    // Update toggle UI
+    if (btn) {
+      btn.style.backgroundColor = active ? '#0d9488' : '#d1d5db';
+      const thumb = btn.querySelector('span');
+      if (thumb) thumb.style.transform = active ? 'translateX(24px)' : 'translateX(0)';
+    }
+    
+    if (active) {
+      // Check immediately and set interval
+      checkAlarm(type);
+      if (alarmIntervals[type]) clearInterval(alarmIntervals[type]);
+      alarmIntervals[type] = setInterval(() => checkAlarm(type), 30000);
+    } else {
+      clearInterval(alarmIntervals[type]);
+      delete alarmIntervals[type];
+    }
+  }
+
+  function checkAlarm(type) {
+    const idKey = ALARM_ID_MAP[type] || type;
+    const timeInput = document.getElementById(`alarm-${idKey}-time`);
+    if (!timeInput) return;
+    
+    const [h, m] = timeInput.value.split(':').map(Number);
+    const now = new Date();
+    const currentMinute = `${now.getHours()}:${now.getMinutes()}`;
+    const alarmKey = `${type}-${currentMinute}`;
+    
+    // Only trigger once per minute
+    if (now.getHours() === h && now.getMinutes() === m && !triggeredAlarms[alarmKey]) {
+      triggeredAlarms[alarmKey] = true;
+      playAlarmSound();
+      showToast(`⏰ Time to ${type.replace(/^\w/, c => c.toUpperCase())}!`);
+      
+      // Clear the trigger flag after 61 seconds
+      setTimeout(() => {
+        delete triggeredAlarms[alarmKey];
+      }, 61000);
+    }
+  }
+
+  function initAudioContext() {
+    if (!audioCtx) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (AudioContext) {
+        audioCtx = new AudioContext();
+      }
+    }
+    // Resume if suspended (required by some browsers)
+    if (audioCtx?.state === 'suspended') {
+      audioCtx.resume().catch(() => {});
+    }
+    return audioCtx;
+  }
+
+  function playAlarmSound() {
+    const ctx = initAudioContext();
+    if (!ctx) return;
+    
+    try {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      
+      osc.frequency.value = 880;
+      osc.type = 'sine';
+      
+      // Envelope to avoid click
+      gain.gain.setValueAtTime(0, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+      
+      osc.start();
+      osc.stop(ctx.currentTime + 0.5);
+    } catch (e) {
+      console.warn('Audio playback failed:', e);
+    }
+  }
+
+  function dismissAlarm() {
+    const el = document.getElementById('alarm-notification');
+    if (el) el.classList.add('hidden');
+  }
+
+  // Export functionality
+  function exportLog() {
+    let text = 'Oral Health Log\n==============\n\n';
+    
+    if (allData.length === 0) {
+      text += 'No habits logged yet.\n';
+    } else {
+      const sorted = [...allData].sort((a,b) => (b.logged_at||'').localeCompare(a.logged_at||''));
+      sorted.forEach(d => {
+        const habit = d.habit_type?.replace(/^\w/, c => c.toUpperCase()) || 'Habit';
+        const timestamp = d.logged_at ? new Date(d.logged_at).toLocaleString() : 'Unknown time';
+        text += `${habit} - ${timestamp}\n`;
+      });
+    }
+    text += `\nTotal: ${allData.length} entries\nGenerated: ${new Date().toLocaleString()}\n`;
+    
+    try {
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `oral-health-log-${new Date().toISOString().split('T')[0]}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Log exported successfully!');
+    } catch (e) {
+      console.error('Export failed:', e);
+      showToast('Failed to export log');
+    }
+  }
+
+  // Initialize lucide icons after DOM load
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  });
+  </script>
+</body>
+</html>
