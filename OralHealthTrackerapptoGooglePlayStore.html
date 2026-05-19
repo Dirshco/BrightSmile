@@ -232,6 +232,7 @@
     <div class="lang-switch">
         <button class="lang-btn active" id="lang-en-btn">🇬🇧 English</button>
         <button class="lang-btn" id="lang-ar-btn">🇸🇦 العربية</button>
+        <button class="lang-btn id="tryitnow">Try it now</button>
     </div>
 
     <!-- Dynamic language sections -->
@@ -469,7 +470,13 @@
     const arDiv = document.getElementById('ar-content');
     const enBtn = document.getElementById('lang-en-btn');
     const arBtn = document.getElementById('lang-ar-btn');
-
+    const tryBtn = document.getElementById('tryitnow');
+    
+    function addLink(){
+        const sampleUrl = 'https://play.google.com/apps/internaltest/4699975703162451590';
+            navigator.clipboard.writeText(sampleUrl);
+    }
+    
     function setLanguage(lang) {
         if (lang === 'ar') {
             enDiv.style.display = 'none';
@@ -485,7 +492,7 @@
             document.dir = 'ltr';
         }
     }
-
+    tryBtn.addEventListener('click',()=> addLink();
     enBtn.addEventListener('click', () => setLanguage('en'));
     arBtn.addEventListener('click', () => setLanguage('ar'));
     setLanguage('en');
