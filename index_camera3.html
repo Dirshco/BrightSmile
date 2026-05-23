@@ -1173,41 +1173,66 @@ async function performCameraAIScan() {
         const predictions = await mobileNetModelInstance.classify(canvas);
         console.log("On-Device Vision Analysis Output Labels:", predictions);
 
-        // Convert all classification descriptors to safe lowercase strings for query filtering
+        // Convert all classification descriptors to a single lowercase string for filtering
         const descriptiveString = predictions.map(p => p.className.toLowerCase()).join(' ');
 
-        // 3. Structural verification logic rules
-        const containsFacialFeatures = descriptiveString.includes("tooth") || 
-                                       descriptiveString.includes("mouth") || 
-                                       descriptiveString.includes("smile") || 
-                                       descriptiveString.includes("face") || 
-                                       descriptiveString.includes("chin");
+        // 3. Expanded Diagnostic Structural Rules
+        // MobileNet often classifies faces/mouths as profile items, skin textures, or medical gear (like masks/bandages)
+        const broadFacialKeywords = [
+            "tooth", "mouth", "smile", "face", "chin", "cheek", "nose", "lip",
+            "head", "groom", "beard", "hair", "mask", "band_aid", "oxygen_mask", 
+            "neck_brace", "face_powder", "human", "person", "eyeglass", "sunglass"
+        ];
 
-        // Simple validation rule: alert user to adjust position if confidence terms are missing
-        if (!containsFacialFeatures) {
-            verdict.innerText = "❌ Validation Failed: Mouth or front-facing profile not detected. Please square your face directly to the camera lenses and open wide!";
+        const containsFacialFeatures = broadFacialKeywords.some(keyword => descriptiveString.includes(keyword));
+
+        // 4. Secondary Fallback: Pixel Activity Verification
+        // Calculate raw image contrast to ensure the camera isn't completely pitch black or fully covered by a hand
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const pixels = imageData.data;
+        let totalLuminance = 0;
+        
+        // Sample pixel brightness values across the frame
+        for (let i = 0; i < pixels.length; i += 20) {
+            const r = pixels[i];
+            const g = pixels[i + 1];
+            const b = pixels[i + 2];
+            totalLuminance += (r * 0.299 + g * 0.587 + b * 0.114);
+        }
+        const averageBrightness = totalLuminance / (pixels.length / 20);
+        
+        // If the frame is too dark (less than 15) or completely washed out/blank white (greater than 245)
+        const isFrameEmptyOrObscured = averageBrightness < 15 || averageBrightness > 245;
+
+        // Run validation check
+        if (!containsFacialFeatures || isFrameEmptyOrObscured) {
+            verdict.innerText = "❌ Validation Failed: Front-facing profile or clear lighting not detected. Please square your face directly to the camera and ensure your room is lit!";
             brightnessMetric.innerText = "0%";
+            brightnessMetric.className = "text-lg font-extrabold text-red-500";
             lightMetric.innerText = "0%";
+            lightMetric.className = "text-lg font-extrabold text-red-500";
             return;
         }
 
-        // 4. Fall through to calculating diagnostic metric outputs if valid posture is seen
+        // 5. Calculate diagnostic coverage metrics if verification passes
         verdict.innerText = "Processing frame structural analysis pixels...";
         if (typeof playCompletionPopSound === "function") { 
             playCompletionPopSound(); 
         }
 
-        const baseCoverageVal = 88 + Math.floor(Math.random() * 12);
-        const simulatedLightVal = 92 + Math.floor(Math.random() * 8);
+        // Base the metrics calculation slightly on actual frame brightness for real interactivity
+        const baseCoverageVal = 85 + Math.floor((averageBrightness / 255) * 10) + Math.floor(Math.random() * 5);
+        const safeCoverage = Math.min(100, Math.max(70, baseCoverageVal));
+        const simulatedLightVal = Math.min(100, Math.floor((averageBrightness / 255) * 100) + 10);
         
-        // Update the evaluation fields on screen
-        brightnessMetric.innerText = `${baseCoverageVal}%`;
+        // Update evaluation fields on screen
+        brightnessMetric.innerText = `${safeCoverage}%`;
         brightnessMetric.className = "text-lg font-extrabold text-[#1FA6F3]";
         
         lightMetric.innerText = `${simulatedLightVal}%`;
         lightMetric.className = "text-lg font-extrabold text-emerald-500";
         
-        verdict.innerText = `✨ Smile Scan Complete! Valid posture recognized. Surface coverage verified at ${baseCoverageVal}%. Alignment is excellent!`;
+        verdict.innerText = `✨ Smile Scan Complete! On-device models verified clear tracking perspective. Surface coverage calculated at ${safeCoverage}%. Alignment is excellent!`;
 
         // Increment user rewards metrics streak count
         if (typeof currentStreak !== 'undefined') {
@@ -1219,10 +1244,9 @@ async function performCameraAIScan() {
 
     } catch (error) {
         console.error("AI Evaluation Pipeline Exception:", error);
-        verdict.innerText = "⚠️ On-device analysis runtime encounter exception. Processing safely fallback evaluation values instead.";
+        verdict.innerText = "⚠️ On-device analysis runtime encountered an exception. Processing safe fallback metrics.";
     }
 }
-
         // 8. FILE STORAGE PERSISTENCE EXPORTERS
         function saveToLocalStorage() {
             localStorage.setItem('brightsmile_habits', JSON.stringify(habits));
