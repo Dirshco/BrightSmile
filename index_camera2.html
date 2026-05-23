@@ -251,6 +251,10 @@
                         <button id="enable-cam-btn" class="bg-[#00D2C4] border-2 border-slate-900 text-slate-900 font-bold text-xs px-4 py-2 rounded-full shadow-[2px_2px_0px_0px_#000]">
                             Enable Camera
                         </button>
+                        <button id="disable-cam-btn" class="bg-[#00D2C4] border-2 border-slate-900 text-slate-900 font-bold text-xs px-4 py-2 rounded-full shadow-[2px_2px_0px_0px_#000]">
+                            Disable Camera
+                        </button>
+                        
                     </div>
                 </div>
 
@@ -528,6 +532,7 @@
             // Camera specific bindings
             document.getElementById('enable-cam-btn').addEventListener('click', initWebcamFeed);
             document.getElementById('scan-now-btn').addEventListener('click', performCameraAIScan);
+            document.getElementById('disable-cam-btn').addEventListener('click', stopWebcamFeed); // create function stopWebcamFeed like initiate webcam feed
 
             recalcProgressRing();
         });
@@ -938,7 +943,12 @@
                 badge.innerText = "Local Pixel Analyzer Active";
             }
         }
-
+        async function stopWebcamFeed() {
+            const feed = document.getElementById('webcam-feed');
+             if (videoStream) {
+                return alert("Camera Stopped!");
+            }
+        }
         async function initWebcamFeed() {
             const feed = document.getElementById('webcam-feed');
             const placeholder = document.getElementById('camera-placeholder');
