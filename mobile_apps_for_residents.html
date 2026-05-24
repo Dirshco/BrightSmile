@@ -1,0 +1,1278 @@
+Absolutely — below is a **single-file, self-contained HTML page** you can save as `internal-medicine-resident-apps.html` and upload directly to the Combind Research Foundation / Tele-Geriatric Research Fellowship website. The outbound links in the file point to official product pages or official app/support pages for each app. 
+
+The page also labels which tools are typically subscription/institution-based versus free or freemium. UpToDate, DynaMed/DynaMedex, BMJ Best Practice, UpToDate Lexidrug, Sanford Guide, and ACP MKSAP generally require a subscription or institutional access; epocrates is freemium; MDCalc, CDC Vaccine Schedules, Read by QxMD, and Medscape are free; and Doximity offers free access for verified U.S. clinicians. 
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Essential mobile applications for new Internal Medicine residents. Curated for the Combind Research Foundation / Tele-Geriatric Research Fellowship."
+  />
+  <title>Essential Mobile Apps for New Internal Medicine Residents</title>
+  <style>
+    :root {
+      --bg: #f4f7fd;
+      --bg-2: #eef4ff;
+      --card: rgba(255, 255, 255, 0.82);
+      --card-solid: #ffffff;
+      --ink: #10233f;
+      --muted: #5f718c;
+      --border: rgba(16, 35, 63, 0.10);
+      --shadow: 0 18px 45px rgba(17, 24, 39, 0.10);
+      --shadow-soft: 0 10px 24px rgba(17, 24, 39, 0.07);
+      --blue: #2563eb;
+      --cyan: #06b6d4;
+      --teal: #0f766e;
+      --green: #16a34a;
+      --amber: #d97706;
+      --purple: #7c3aed;
+      --pink: #db2777;
+      --rose: #e11d48;
+      --slate: #475569;
+      --radius: 22px;
+      --radius-sm: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.08), transparent 35%),
+        radial-gradient(circle at 100% 20%, rgba(124, 58, 237, 0.10), transparent 30%),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .aurora {
+      position: fixed;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(70px);
+      opacity: 0.35;
+      border-radius: 999px;
+    }
+
+    .aurora.a1 {
+      width: 260px;
+      height: 260px;
+      top: 50px;
+      left: -60px;
+      background: rgba(37, 99, 235, 0.25);
+    }
+
+    .aurora.a2 {
+      width: 320px;
+      height: 320px;
+      top: 180px;
+      right: -100px;
+      background: rgba(124, 58, 237, 0.22);
+    }
+
+    .aurora.a3 {
+      width: 280px;
+      height: 280px;
+      bottom: 60px;
+      left: 20%;
+      background: rgba(6, 182, 212, 0.18);
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 28px 0 44px;
+    }
+
+    .panel {
+      background: var(--card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+    }
+
+    .hero {
+      padding: 10px 0 18px;
+    }
+
+    .hero-card {
+      padding: 34px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,255,255,0.72)),
+        linear-gradient(120deg, rgba(37,99,235,0.10), rgba(124,58,237,0.08));
+      border: 1px solid rgba(255,255,255,0.75);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: rgba(37, 99, 235, 0.10);
+      border: 1px solid rgba(37, 99, 235, 0.14);
+      border-radius: 999px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 860px;
+      font-size: 1.04rem;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 13px 18px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+    }
+
+    .btn-secondary {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid var(--border);
+    }
+
+    .mini-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .mini-tag {
+      font-size: 0.86rem;
+      color: var(--slate);
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(71, 85, 105, 0.10);
+      border-radius: 999px;
+      padding: 9px 12px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.70);
+      border: 1px solid rgba(16, 35, 63, 0.08);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.5rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .section {
+      margin-top: 22px;
+    }
+
+    .section-head {
+      margin-bottom: 14px;
+    }
+
+    .section-head h2 {
+      margin: 0 0 6px;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .starter-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .starter-item {
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.70));
+      border: 1px solid rgba(16, 35, 63, 0.08);
+      border-radius: 18px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .starter-item h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .starter-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.6;
+    }
+
+    .tools-panel {
+      padding: 18px;
+      margin-top: 22px;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 16px;
+      align-items: end;
+    }
+
+    .search-wrap label,
+    .filter-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 8px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.88);
+      font-size: 0.96rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: rgba(37, 99, 235, 0.35);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-btn {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.82);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(124, 58, 237, 0.12));
+      border-color: rgba(37, 99, 235, 0.18);
+      color: var(--blue);
+    }
+
+    .toolbar-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .app-card {
+      position: relative;
+      overflow: hidden;
+      background: var(--card-solid);
+      border: 1px solid rgba(16, 35, 63, 0.08);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+    }
+
+    .app-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--card-accent), rgba(255,255,255,0.2));
+    }
+
+    .app-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .app-card.hidden {
+      display: none;
+    }
+
+    .card-head {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    .icon-badge {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      font-size: 0.95rem;
+      background: linear-gradient(135deg, var(--card-accent), rgba(16, 35, 63, 0.88));
+      box-shadow: 0 10px 24px rgba(16, 35, 63, 0.14);
+      flex-shrink: 0;
+    }
+
+    .title-block {
+      min-width: 0;
+    }
+
+    .category {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.77rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--card-accent);
+      background: rgba(15, 23, 42, 0.03);
+      padding: 6px 10px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .app-card h3 {
+      margin: 0;
+      font-size: 1.16rem;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    .access-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+    }
+
+    .access-pill.sub {
+      color: #7c2d12;
+      background: #fff7ed;
+      border-color: #fdba74;
+    }
+
+    .access-pill.free {
+      color: #166534;
+      background: #f0fdf4;
+      border-color: #86efac;
+    }
+
+    .access-pill.mixed {
+      color: #1d4ed8;
+      background: #eff6ff;
+      border-color: #93c5fd;
+    }
+
+    .desc {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.96rem;
+    }
+
+    .meta-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .meta-list li {
+      display: grid;
+      gap: 4px;
+      padding: 12px 13px;
+      border-radius: 14px;
+      background: #f8fbff;
+      border: 1px solid rgba(16, 35, 63, 0.06);
+    }
+
+    .meta-label {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+      color: var(--slate);
+    }
+
+    .meta-text {
+      font-size: 0.93rem;
+      line-height: 1.55;
+      color: var(--ink);
+    }
+
+    .link-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .card-link:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card-link.primary {
+      background: linear-gradient(135deg, var(--card-accent), rgba(16, 35, 63, 0.92));
+      color: #fff;
+    }
+
+    .card-link.ghost {
+      background: #f8fafc;
+      color: var(--ink);
+      border: 1px solid rgba(16, 35, 63, 0.08);
+    }
+
+    .note-panel {
+      padding: 22px;
+      margin-top: 24px;
+    }
+
+    .note-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .note-box {
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(248,250,252,0.85));
+      border: 1px solid rgba(16, 35, 63, 0.08);
+    }
+
+    .note-box h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .note-box p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    .empty-state {
+      display: none;
+      margin-top: 18px;
+      padding: 24px;
+      text-align: center;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.82);
+      border: 1px dashed rgba(16, 35, 63, 0.16);
+      color: var(--muted);
+    }
+
+    .empty-state.show {
+      display: block;
+    }
+
+    .site-footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-top: 24px;
+      padding: 12px 0 4px;
+    }
+
+    .site-footer strong {
+      color: var(--ink);
+    }
+
+    .muted-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 1080px) {
+      .app-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .starter-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        width: min(100% - 1rem, 1180px);
+      }
+
+      .hero-card,
+      .tools-panel,
+      .note-panel {
+        padding: 20px;
+      }
+
+      .toolbar,
+      .note-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .app-grid,
+      .starter-grid,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .title-row {
+        flex-direction: column;
+      }
+
+      .toolbar-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .aurora,
+      .hero-actions,
+      .tools-panel {
+        display: none !important;
+      }
+
+      .panel,
+      .app-card,
+      .starter-item,
+      .note-box {
+        box-shadow: none !important;
+        background: #fff !important;
+        border: 1px solid #dbe3ef !important;
+      }
+
+      .container {
+        width: 100%;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="aurora a1"></div>
+  <div class="aurora a2"></div>
+  <div class="aurora a3"></div>
+
+  <main class="container">
+    <header class="hero">
+      <section class="panel hero-card">
+        <div class="eyebrow">Combind Research Foundation • Tele-Geriatric Research Fellowship</div>
+        <h1>Essential Mobile Apps for New Internal Medicine Residents</h1>
+        <p class="lead">
+          A curated, mobile-friendly guide to bedside references, drug tools, calculators,
+          infectious disease resources, vaccine schedules, board prep, literature review,
+          and clinical communication apps commonly useful during Internal Medicine training.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="downloadHtmlBtn">Download This HTML File</button>
+          <button class="btn btn-secondary" id="printBtn">Print / Save as PDF</button>
+        </div>
+
+        <div class="mini-tags">
+          <span class="mini-tag">Bedside reference</span>
+          <span class="mini-tag">Drug dosing & interactions</span>
+          <span class="mini-tag">ID & vaccines</span>
+          <span class="mini-tag">Board prep</span>
+          <span class="mini-tag">Literature</span>
+          <span class="mini-tag">Workflow tools</span>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <strong>12</strong>
+            <span>featured applications</span>
+          </div>
+          <div class="stat">
+            <strong>6</strong>
+            <span>practical categories</span>
+          </div>
+          <div class="stat">
+            <strong>1</strong>
+            <span>self-contained HTML page</span>
+          </div>
+          <div class="stat">
+            <strong>Ready</strong>
+            <span>for direct website upload</span>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Recommended Day-1 Starter Pack</h2>
+        <p>
+          For most new residents, these five cover the largest share of everyday ward, clinic,
+          and overnight questions.
+        </p>
+      </div>
+
+      <div class="starter-grid">
+        <div class="starter-item">
+          <h3>UpToDate / DynaMedex</h3>
+          <p>Primary point-of-care reference for diagnosis, management, and common inpatient questions.</p>
+        </div>
+        <div class="starter-item">
+          <h3>Lexidrug / Epocrates</h3>
+          <p>Drug dosing, interactions, renal adjustments, safety checks, and quick prescribing support.</p>
+        </div>
+        <div class="starter-item">
+          <h3>MDCalc</h3>
+          <p>Fast access to decision tools used constantly on wards, admissions, and consult follow-up.</p>
+        </div>
+        <div class="starter-item">
+          <h3>Sanford Guide</h3>
+          <p>High-yield infectious diseases and antimicrobial guidance for common inpatient scenarios.</p>
+        </div>
+        <div class="starter-item">
+          <h3>ACP MKSAP</h3>
+          <p>Internal medicine learning and board review that pairs well with residency training.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel tools-panel">
+      <div class="toolbar">
+        <div class="search-wrap">
+          <label for="searchInput">Search apps</label>
+          <input
+            id="searchInput"
+            class="search-input"
+            type="text"
+            placeholder="Search by app name, category, or use case..."
+            aria-label="Search applications"
+          />
+        </div>
+
+        <div>
+          <div class="filter-label">Filter by category</div>
+          <div class="filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="poc">Point-of-Care</button>
+            <button class="filter-btn" data-filter="drug">Drug Reference</button>
+            <button class="filter-btn" data-filter="calc">Calculators</button>
+            <button class="filter-btn" data-filter="id">ID / Vaccines</button>
+            <button class="filter-btn" data-filter="learn">Learning</button>
+            <button class="filter-btn" data-filter="workflow">Workflow</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="toolbar-footer">
+        <div id="resultsCount">Showing 12 apps</div>
+        <div class="muted-note">Links open in a new tab and point to official resources.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div id="appGrid" class="app-grid">
+
+        <article class="app-card" style="--card-accent:#2563eb;" data-category="poc" data-search="uptodate point of care bedside diagnosis management rounds admissions cross cover inpatient clinic evidence">
+          <div class="card-head">
+            <div class="icon-badge">UT</div>
+            <div class="title-block">
+              <div class="category">Point-of-Care Reference</div>
+              <div class="title-row">
+                <h3>UpToDate</h3>
+                <span class="access-pill sub">Subscription / Institution</span>
+              </div>
+            </div>
+          </div>
+          <p class="desc">
+            Broad clinical reference for bedside diagnosis, inpatient management, outpatient follow-up,
+            and common “what do I do next?” questions.
+          </p>
+          <ul class="meta-list">
+            <li>
+              <span class="meta-label">Best for</span>
+              <span class="meta-text">Admissions, differential diagnosis, treatment planning, discharge decisions.</span>
+            </li>
+            <li>
+              <span class="meta-label">High-yield use</span>
+              <span class="meta-text">Rounds, night float, rapid refresher before calling a consultant, and clinic follow-up.</span>
+            </li>
+          </ul>
+          <div class="link-row">
+            <a class="card-link primary" href="https://www.uptodate.com/home/uptodate-mobile-access" target="_blank" rel="noopener noreferrer">Official Mobile Access</a>
+          </div>
+        </article>
+
+        <article class="app-card" style="--card-accent:#7c3aed;" data-category="poc" data-search="dynamed dynamedex point of care bedside evidence disease drug content micromedex hospital clinic">
+          <div class="card-head">
+            <div class="icon-badge">DM</div>
+            <div class="title-block">
+              <div class="category">Point-of-Care Reference</div>
+              <div class="title-row">
+                <h3>DynaMedex</h3>
+                <span class="access-pill sub">Subscription / Institution</span>
+              </div>
+            </div>
+          </div>
+          <p class="desc">
+            A strong alternative point-of-care tool that combines disease guidance and medication content
+            in one workflow-friendly platform.
+          </p>
+          <ul class="meta-list">
+            <li>
+              <span class="meta-label">Best for</span>
+              <span class="meta-text">Rapid evidence checks, disease overviews, bedside recommendations, and topic updates.</span>
+            </li>
+            <li>
+              <span class="meta-label">High-yield use</span>
+              <span class="meta-text">When your hospital library supports DynaMed/DynaMedex and you want concise answers fast.</span>
+            </li>
+          </ul>
+          <div class="link-row">
+            <a class="card-link primary" href="https://about.ebsco.com/clinical-decisions/dynamed-solutions/dynamed-micromedex-with-watson" target="_blank" rel="noopener noreferrer">Official Product Page</a>
+            <a class="card-link ghost" href="https://about.ebsco.com/clinical-decisions/dynamed-solutions/benefits/anytime-anywhere-access" target="_blank" rel="noopener noreferrer">Mobile Access Info</a>
+          </div>
+        </article>
+
+        <article class="app-card" style="--card-accent:#0f766e;" data-category="poc" data-search="bmj best practice point of care diagnosis treatment app offline clinic hospital">
+          <div class="card-head">
+            <div class="icon-badge">BP</div>
+            <div class="title-block">
+              <div class="category">Point-of-Care Reference</div>
+              <div class="title-row">
+               J Best Practice</h3>
+                <span class="access-pill sub">Subscription / Institution</span>
+              </div>
+            </div>
+          </div>
+          <p class="desc">
+            Structured condition-based guidance with practical sections for diagnosis, treatment,
+            and decision support.
+          </p>
+          <ul class="meta-list">
+            <li>
+              <span class="meta-label">Best for</span>
+              <span class="meta-text">Condition overviews, diagnostic framing, and stepwise management planning.</span>
+            </li>
+            <li>
+              <span class="meta-label">High-yield use</span>
+              <span class="meta-text">Residents who prefer organized topic pages and offline-friendly access.</span>
+            </li>
+          </ul>
+          <div class="link-row">
+            <a class="card-link primary" href="https://bestpractice.bmj.com/info/app" target="_blank" rel="noopener noreferrer">Official App Page</a>
+            <a class="card-link ghost" href="https://bestpractice.bmj.com/info/us/getting-started/" target="_blank" rel="noopener noreferrer">Getting Started</a>
+          </div>
+        </article>
+
+        <article class="app-card" style="--card-accent:#db2777;" data-category="drug" data-search="epocrates drug dosing interaction checker prescribing adverse effects contraindications free paid freemium">
+          <div class="card-head">
+            <div class="icon-badge">EP</div>
+            <div class="title-block">
+              <div class="category">Drug Reference</div>
+              <div class="title-row">
+                <h3>Epocrates</h3>
+                <span class="access-pill mixed">Free + Paid</span>
+              </div>
+            </div>
+          </div>
+          <p class="desc">
+            Quick medication reference with dosing, adverse effects, contraindications,
+            and interaction checking.
+          </p>
+          <ul class="meta-list">
+            <li>
+              <span class="meta-label">Best for</span>
+              <span class="meta-text">Fast drug lookups when you need answers in seconds at the bedside or in clinic.</span>
+            </li>
+            <li>
+              <span class="meta-label">High-yield use</span>
+              <span class="meta-text">Cross-cover calls, discharge medication review, and quick prescribing questions.</span>
+            </li>
+          </ul>
+          <div class="link-row">
+            <a class="card-link primary" href="https://discover.epocrates.com/" target="_blank" rel="noopener noreferrer">Official Website</a>
+            <a class="card-link ghost" href="https://www.epocrates.com/support" target="_blank" rel="noopener noreferrer">Support / App Info</a>
+          </div>
+        </article>
+
+        <article class="app-card" style="--card-accent:#1d4ed8;" data-category="drug" data-search="lexidrug lexicomp drug reference dosing renal hepatic interactions compatibility inpatient pharmacy">
+          <div class="card-head">
+            <div class="icon-badge">LX</div>
+            <div class="title-block">
+              <div class="category">Drug Reference</div>
+              <div class="title-row">
+                <h3>UpToDate Lexidrug</h3>
+                <span class="access-pill sub">Subscription / Institution</span>
+              </div>
+            </div>
+          </div>
+          <p class="desc">
+            Deep medication reference for inpatient and outpatient use, especially when you need more detail
+            than a basic drug app provides.
+          </p>
+          <ul class="meta-list">
+            <li>
+              <span class="meta-label">Best for</span>
+              <span class="meta-text">Renal dosing, medication safety, interaction review, and detailed monographs.</span>
+            </li>
+            <li>
+              <span class="meta-label">High-yield use</span>
+              <span class="meta-text">Complex medication questions, older adults, polypharmacy, and high-risk prescribing.</span>
+            </li>
+          </ul>
+          <div class="link-row">
+            <a class="card-link primary" href="https://www.wolterskluwer.com/en/solutions/lexicomp" target="_blank" rel="noopener noreferrer">Official Product Page</a>
+            <a class="card-link ghost" href="https://www.wolterskluwer.com/en/solutions/lexicomp/resources/mobile" target="_blank" rel="noopener noreferrer">Mobile Support</a>
+          </div>
+        </article>
+
+        <article class="app-card" style="--card-accent:#06b6d4;" data-category="calc" data-search="mdcalc calculator scores tools decision support wards clinic pneumonia vte chadsvasc wells curb-65">
+          <div class="card-head">
+            <div class="icon-badge">MC</div>
+            <div class="title-block">
+              <div class="category">Calculators</div>
+              <div class="title-row">
+                <h3>MDCalc</h3>
+                <span class="access-pill free">Free</span>
+              </div>
+            </div>
+          </div>
+          <p class="desc">
+            Go-to medical calculator platform for common ward, admission, and clinic decision tools.
+          </p>
+          <ul class="meta-list">
+            <li>
+              <span class="meta-label">Best for</span>
+              <span class="meta-text">CURB-65, Wells, CHA₂DS₂-VASc, MELD, CKD, VTE risk, and hundreds of other bedside tools.</span>
+            </li>
+            <li>
+              <span class="meta-label">High-yield use</span>
+              <span class="meta-text">Any moment you know the score exists but do not want to rely on memory alone.</span>
+            </li>
+          </ul>
+          <div class="link-row">
+            <a class="card-link primary" href="https://www.mdcalc.com/" target="_blank" rel="noopener noreferrer">Official Website</a>
+            <a class="card-link ghost" href="https://www.mdcalc.com/contact" target="_blank" rel="noopener noreferrer">App Info</a>
+          </div>
+        </article>
+
+        <article class="app-card" style="--card-accent:#e11d48;" data-category="id" data-search="sanford guide infectious disease antimicrobial antibiotics stewardship inpatient uti pneumonia bacteremia sepsis">
+          <div class="card-head">
+            <div class="icon-badge">SG</div>
+            <div class="title-block">
+              <div class="category">ID / Vaccines</div>
+              <div class="title-row">
+                <h3>Sanford Guide</h3>
+                <span class="access-pill sub">Subscription / Trial</span>
+              </div>
+            </div>
+          </div>
+          <p class="desc">
+            High-yield infectious disease and antimicrobial reference for the moments when you need rapid,
+            practical treatment guidance.
+          </p>
+          <ul class="meta-list">
+            <li>
+              <span class="meta-label">Best for</span>
+              <span class="meta-text">Empiric coverage questions, antimicrobial selection, and common inpatient ID scenarios.</span>
+            </li>
+            <li>
+              <span class="meta-label">High-yield use</span>
+              <span class="meta-text">Night float, ICU, medicine wards, and whenever “what should I cover with?” comes up.</span>
+            </li>
+          </ul>
+          <div class="link-row">
+            <a class="card-link primary" href="https://www.sanfordguide.com/products/antimicrobial-therapy" target="_blank" rel="noopener noreferrer">Antimicrobial Therapy</a>
+            <a class="card-link ghost" href="https://www.sanfordguide.com/support/apps/" target="_blank" rel="noopener noreferrer">App Support</a>
+          </div>
+        </article>
+
+        <article class="app-card" style="--card-accent:#16a34a;" data-category="id" data-search="cdc vaccine schedules adult immunization clinic discharge preventive care vaccines">
+          <div class="card-head">
+            <div class="icon-badge">CDC</div>
+            <div class="title-block">
+              <div class="category">ID / Vaccines</div>
+              <div class="title-row">
+                <h3>CDC Vaccine Schedules</h3>
+                <span class="access-pill free">Free</span>
+              </div>
+            </div>
+          </div>
+          <p class="desc">
+            Fast access to official immunization schedules that is especially helpful in continuity clinic,
+            transitions of care, and preventive care review.
+          </p>
+          <ul class="meta-list">
+            <li>
+              <span class="meta-label">Best for</span>
+              <span class="meta-text">Adult vaccines, special situations, and quick schedule confirmation during clinic visits.</span>
+            </li>
+            <li>
+              <span class="meta-label">High-yield use</span>
+              <span class="meta-text">Primary care blocks, discharge planning, geriatrics, and health maintenance visits.</span>
+            </li>
+          </ul>
+          <div class="link-row">
+            <a class="card-link primary" href="https://www.cdc.gov/vaccines/hcp/imz-schedules/app.html" target="_blank" rel="noopener noreferrer">Official App Page</a>
+            <a class="card-link ghost" href="https://www.cdc.gov/vaccines/hcp/imz-schedules/index.html" target="_blank" rel="noopener noreferrer">Schedule Resources</a>
+          </div>
+        </article>
+
+        <article class="app-card" style="--card-accent:#d97706;" data-category="learn" data-search="acp mksap boards board review internal medicine learning questions abim residency study">
+          <div class="card-head">
+            <div class="icon-badge">ACP</div>
+            <div class="title-block">
+              <div class="category">Learning / Boards</div>
+              <div class="title-row">
+                <h3>ACP MKSAP</h3>
+                <span class="access-pill sub">Subscription</span>
+              </div>
+            </div>
+          </div>
+          <p class="desc">
+            Internal medicine question-based learning and board preparation that pairs well with daily residency training.
+          </p>
+          <ul class="meta-list">
+            <li>
+              <span class="meta-label">Best for</span>
+              <span class="meta-text">Structured study, reinforcing high-yield IM topics, and longitudinal board prep.</span>
+            </li>
+            <li>
+              <span class="meta-label">High-yield use</span>
+              <span class="meta-text">Post-call review, elective blocks, weekends, and pre-ABIM study planning.</span>
+            </li>
+          </ul>
+          <div class="link-row">
+            <a class="card-link primary" href="https://www.acponline.org/featured-products/acp-mksap" target="_blank" rel="noopener noreferrer">Official Product Page</a>
+            <a class="card-link ghost" href="https://www.acponline.org/featured-products/acp-mksap/download-apps" target="_blank" rel="noopener noreferrer">App Download Info</a>
+          </div>
+        </article>
+
+        <article class="app-card" style="--card-accent:#0ea5e9;" data-category="learn" data-search="read by qxmd journals literature pubmed papers full text research internal medicine">
+          <div class="card-head">
+            <div class="icon-badge">QX</div>
+            <div class="title-block">
+              <div class="category">Learning / Literature</div>
+              <div class="title-row">
+                <h3>Read by QxMD</h3>
+                <span class="access-pill free">Free</span>
+              </div>
+            </div>
+          </div>
+          <p class="desc">
+            Personalized literature app for keeping up with new studies and topic reviews without manually searching journals.
+          </p>
+          <ul class="meta-list">
+            <li>
+              <span class="meta-label">Best for</span>
+              <span class="meta-text">Reading landmark papers, following subspecialty interests, and building a lighter journal routine.</span>
+            </li>
+            <li>
+              <span class="meta-label">High-yield use</span>
+              <span class="meta-text">Morning coffee reading, teaching rounds, journal club prep, and career exploration.</span>
+            </li>
+          </ul>
+          <div class="link-row">
+            <a class="card-link primary" href="https://www.qxmd.com/read-by-qxmd" target="_blank" rel="noopener noreferrer">Official Website</a>
+          </div>
+        </article>
+
+        <article class="app-card" style="--card-accent:#475569;" data-category="workflow" data-search="medscape backup reference drugs diseases calculators free news cme reference">
+          <div class="card-head">
+            <div class="icon-badge">MS</div>
+            <div class="title-block">
+              <div class="category">Workflow / Backup Reference</div>
+              <div class="title-row">
+                <h3>Medscape</h3>
+                <span class="access-pill free">Free</span>
+              </div>
+            </div>
+          </div>
+          <p class="desc">
+            Useful free backup resource for drug and disease information, quick tools, and medical news.
+          </p>
+          <ul class="meta-list">
+            <li>
+              <span class="meta-label">Best for</span>
+              <span class="meta-text">Quick reference when you need a second source or do not have institutional access to paid tools.</span>
+            </li>
+            <li>
+              <span class="meta-label">High-yield use</span>
+              <span class="meta-text">General backup reference, broad browsing, and rapid checks in clinic or on wards.</span>
+            </li>
+          </ul>
+          <div class="link-row">
+            <a class="card-link primary" href="https://www.medscape.com/public/applanding" target="_blank" rel="noopener noreferrer">Official App Page</a>
+            <a class="card-link ghost" href="https://reference.medscape.com/" target="_blank" rel="noopener noreferrer">Reference Library</a>
+          </div>
+        </article>
+
+        <article class="app-card" style="--card-accent:#7c2d12;" data-category="workflow" data-search="doximity dialer patient calling personal number private clinician communication telehealth secure texting">
+          <div class="card-head">
+            <div class="icon-badge">DX</div>
+            <div class="title-block">
+              <div class="category">Workflow / Communication</div>
+              <div class="title-row">
+                <h3>Doximity</h3>
+                <span class="access-pill mixed">Verified U.S. Clinicians</span>
+              </div>
+            </div>
+          </div>
+          <p class="desc">
+            Practical communication app for calling patients and managing common clinician workflow tasks
+            while helping keep your personal number private.
+          </p>
+          <ul class="meta-list">
+            <li>
+              <span class="meta-label">Best for</span>
+              <span class="meta-text">Patient callbacks, transition-of-care communication, and mobile clinician workflow.</span>
+            </li>
+            <li>
+              <span class="meta-label">High-yield use</span>
+              <span class="meta-text">Ambulatory blocks, follow-up calls, and teams that need quick patient outreach from personal devices.</span>
+            </li>
+          </ul>
+          <div class="link-row">
+            <a class="card-link primary" href="https://www.doximity.com/app" target="_blank" rel="noopener noreferrer">Official App Page</a>
+            <a class="card-link ghost" href="https://www.doximity.com/dialer" target="_blank" rel="noopener noreferrer">Dialer</a>
+          </div>
+        </article>
+
+      </div>
+
+      <div id="emptyState" class="empty-state">
+        No apps match your current search or filter. Try clearing the search box or selecting “All.”
+      </div>
+    </section>
+
+    <section class="panel note-panel">
+      <div class="note-grid">
+        <div class="note-box">
+          <h3>Implementation note</h3>
+          <p>
+            This page is intentionally built as a single-file static HTML document with embedded CSS and JavaScript,
+            so it can be uploaded directly to a standard website without additional dependencies.
+          </p>
+        </div>
+        <div class="note-box">
+          <h3>Clinical reminder</h3>
+          <p>
+            Apps should support, not replace, local formulary rules, hospital policies, attending guidance,
+            and patient-specific clinical judgment.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>
+        Prepared for the <strong>Combind Research Foundation / Tele-Geriatric Research Fellowship</strong>.
+      </p>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      const searchInput = document.getElementById("searchInput");
+      const filterButtons = Array.from(document.querySelectorAll(".filter-btn"));
+      const cards = Array.from(document.querySelectorAll(".app-card"));
+      const resultsCount = document.getElementById("resultsCount");
+      const emptyState = document.getElementById("emptyState");
+      const printBtn = document.getElementById("printBtn");
+      const downloadHtmlBtn = document.getElementById("downloadHtmlBtn");
+
+      let activeFilter = "all";
+
+      function updateCards() {
+        const query = (searchInput.value || "").trim().toLowerCase();
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+          const categories = (card.dataset.category || "").split(" ");
+          const searchableText = (card.dataset.search || "") + " " + card.innerText.toLowerCase();
+
+          const matchesFilter = activeFilter === "all" || categories.includes(activeFilter);
+          const matchesQuery = !query || searchableText.includes(query);
+
+          const shouldShow = matchesFilter && matchesQuery;
+          card.classList.toggle("hidden", !shouldShow);
+
+          if (shouldShow) visibleCount++;
+        });
+
+        resultsCount.textContent = `Showing ${visibleCount} app${visibleCount === 1 ? "" : "s"}`;
+        emptyState.classList.toggle("show", visibleCount === 0);
+      }
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          filterButtons.forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
+          activeFilter = button.dataset.filter || "all";
+          updateCards();
+        });
+      });
+
+      searchInput.addEventListener("input", updateCards);
+
+      printBtn.addEventListener("click", () => {
+        window.print();
+      });
+
+      downloadHtmlBtn.addEventListener("click", () => {
+        const filename = "internal-medicine-resident-apps.html";
+        const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+        const blob = new Blob([htmlContent], { type: "text/html" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      });
+
+      updateCards();
+    })();
+  </script>
+</body>
+</html>
+```
+
+If you want, I can also make:
+1. a **WordPress-ready version**,
+2. a **version with your logo/colors**, or
+3. a **more academic version with fellowship branding and footer navigation**.
